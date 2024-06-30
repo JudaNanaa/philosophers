@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 08:12:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/06/30 17:50:01 by madamou          ###   ########.fr       */
+/*   Updated: 2024/06/30 23:20:54 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_philo *ft_lstnew(int id, t_philo *philo)
 		return (NULL);
 	new->id = id;
 	new->fork = 1;
+	new->die = 0;
 	new->nb_eat = philo->nb_eat;
 	new->time_die = philo->time_die;
 	new->time_eat = philo->time_eat;
@@ -58,6 +59,17 @@ t_philo *ft_add_back(t_philo *philos, t_philo *new)
 	return (philos);
 }
 
+t_philo *ft_clear_philos(t_philo *philos)
+{
+	t_philo *buff;
+
+	buff = philos->next;
+	if (!philos)
+		return (NULL);
+	free(philos);
+	return (ft_clear_philos(buff));
+}
+
 t_philo *ft_init_struct(t_philo *philo)
 {
 	int i;
@@ -76,3 +88,18 @@ t_philo *ft_init_struct(t_philo *philo)
 	}
 	return (philos);
 }
+
+int ft_check_if_die(t_philo *philos)
+{
+	philos = philos->first;
+	while (philos)
+	{
+		if (philos->die == 1)
+		{
+			return (0);
+		}
+		philos = philos->next;
+	}
+	return (1);
+}
+

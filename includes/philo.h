@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:59:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/06/30 18:00:57 by madamou          ###   ########.fr       */
+/*   Updated: 2024/06/30 22:58:55 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,16 @@ typedef struct s_data {
 	int fork;
 	char *nb_eat_args;
 	int thinking;
+	int die;
 	unsigned long long int timesleeping;
+	unsigned long long int timestart;
 	unsigned long long int timefork;
 	unsigned long long int timeeating;
 	unsigned long long int timethinking;
 	unsigned long long int timestamp;
 	pthread_mutex_t mutex;
+	pthread_mutex_t mutexprintf;
+	pthread_mutex_t mutexphilo;
 	struct s_data *before;
 	struct s_data *next;
 	struct s_data *first;
@@ -54,8 +58,10 @@ int ft_parse_args(int argc, char **argv, t_philo *data);
 long ft_atol(char *str);
 int	ft_check_if_number(char **argv, int index);
 
-// Init
+// Struct
 t_philo *ft_init_struct(t_philo *philo);
+t_philo *ft_clear_philos(t_philo *philos);
+int ft_check_if_die(t_philo *philos);
 
 // Threads
 int ft_creating_threads(t_philo *data, pthread_t *philos);

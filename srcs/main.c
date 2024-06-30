@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:57:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/06/29 08:18:58 by madamou          ###   ########.fr       */
+/*   Updated: 2024/06/30 18:33:00 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ int main(int argc, char **argv)
 		return (1);
 	philos = ft_init_struct(&philo);
 	ft_thread(philos);
+	ft_clear_philos(philos);
 	return (0);
 }
