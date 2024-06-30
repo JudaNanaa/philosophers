@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 12:16:09 by madamou           #+#    #+#             */
-/*   Updated: 2024/06/29 08:27:20 by madamou          ###   ########.fr       */
+/*   Updated: 2024/06/30 17:06:21 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int ft_parse_args(int argc, char **argv, t_philo *data)
 		if (data->nb_eat < 0)
 			return (printf("%ld not good for nb philo must eat\n", data->nb_eat), 0);
 	}
+	else 
+		data->nb_eat = -1;
 	data->nb_eat_args = argv[5];
 	return (1);
 }
