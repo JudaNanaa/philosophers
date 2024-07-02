@@ -39,11 +39,10 @@ typedef struct s_data {
 	unsigned long long int timeeating;
 	unsigned long long int timethinking;
 	unsigned long long int timestamp;
-	pthread_mutex_t mutex;
+	pthread_mutex_t *mutex;
 	pthread_mutex_t *mutexprintf;
 	pthread_mutex_t *mutexfork;
 	pthread_mutex_t *mutexdie;
-	pthread_mutex_t mutexdieread;
 	pthread_mutex_t *mutexfinish;
 	struct s_data *before;
 	struct s_data *next;
@@ -51,6 +50,15 @@ typedef struct s_data {
 	struct s_data *last;
 	struct timeval curent_time;
 } t_philo;
+
+typedef struct s_mutex
+{
+	pthread_mutex_t *mutex;
+	pthread_mutex_t *mutexprintf;
+	pthread_mutex_t *mutexfork;
+	pthread_mutex_t *mutexdie;
+	pthread_mutex_t *mutexfinish;
+}t_mutex;
 
 extern int usleep (__useconds_t __useconds);
 
@@ -61,6 +69,8 @@ int ft_parse_args(int argc, char **argv, t_philo *data);
 // Utils
 long ft_atol(char *str);
 int	ft_check_if_number(char **argv, int index);
+void ft_init_mutex(t_mutex *mutex);
+void ft_destroy_mutex(t_mutex *mutex);
 
 // Struct
 t_philo *ft_init_struct(t_philo *philo);

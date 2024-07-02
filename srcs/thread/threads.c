@@ -36,7 +36,6 @@ void *ft_routine(void *args)
 	t_philo *philo;
 
 	philo = (t_philo *)args;
-	usleep(500 * philo->id);
 	if (gettimeofday(&philo->curent_time, NULL) == -1)
 		return (NULL);
 	philo->timestart = ((philo->curent_time.tv_sec * 1000000) + philo->curent_time.tv_usec) / 1000;
@@ -63,27 +62,51 @@ void *ft_routine(void *args)
 	return (NULL);
 }
 
-int ft_creating_threads(t_philo *philo, pthread_t *threads)
+void ft_init_mutex(t_mutex *mutex)
 {
-	int i;
-	int nb_philo;
 	pthread_mutex_t mutexprintf;
+	pthread_mutex_t mutexx;
 	pthread_mutex_t mutexfork;
 	pthread_mutex_t mutexdie;
 	pthread_mutex_t mutexfinish;
 
+	pthread_mutex_init(&mutexx, NULL);
 	pthread_mutex_init(&mutexprintf, NULL);
 	pthread_mutex_init(&mutexfork, NULL);
 	pthread_mutex_init(&mutexdie, NULL);
 	pthread_mutex_init(&mutexfinish, NULL);
+	mutex->mutex = &mutexx;
+	mutex->mutexprintf = &mutexprintf;
+	mutex->mutexfork = &mutexfork;
+	mutex->mutexdie = &mutexdie;
+	mutex->mutexfinish = &mutexfinish;
+}
+
+void ft_destroy_mutex(t_mutex *mutex)
+{
+	pthread_mutex_destroy(mutex->mutex);
+	pthread_mutex_destroy(mutex->mutexprintf);
+	pthread_mutex_destroy(mutex->mutexfork);
+	pthread_mutex_destroy(mutex->mutexdie);
+	pthread_mutex_destroy(mutex->mutexfinish);
+}
+
+int ft_creating_threads(t_philo *philo, pthread_t *threads)
+{
+	int i;
+	int nb_philo;
+	t_mutex mutex;
+
 	i = 0;
 	nb_philo = philo->nb_philo;
+	ft_init_mutex(&mutex);
 	while (i <= nb_philo - 1)
 	{
-		philo->mutexprintf = &mutexprintf;
-		philo->mutexfork = &mutexfork;
-		philo->mutexdie = &mutexdie;
-		philo->mutexfinish = &mutexfinish;
+		philo->mutex = mutex.mutex;
+		philo->mutexprintf = mutex.mutexprintf;
+		philo->mutexfork = mutex.mutexfork;
+		philo->mutexdie = mutex.mutexdie;
+		philo->mutexfinish = mutex.mutexfinish;
 		if (pthread_create(&threads[i], NULL, &ft_routine, philo) != 0)
 			return (printf("Error creating threads %d\n", i), 0);
 		philo = philo->next;
@@ -96,10 +119,7 @@ int ft_creating_threads(t_philo *philo, pthread_t *threads)
 			return (printf("Error waiting threads %d\n", i), 0);
 		++i;
 	}
-	pthread_mutex_destroy(&mutexprintf);
-	pthread_mutex_destroy(&mutexfork);
-	pthread_mutex_destroy(&mutexdie);
-	pthread_mutex_destroy(&mutexfinish);
+	ft_destroy_mutex(&mutex);
 	return (1);
 }
 

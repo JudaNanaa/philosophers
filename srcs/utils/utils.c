@@ -37,3 +37,4 @@ long ft_atol(char *str)
 	}
 	return (result * sign);
 }
+
