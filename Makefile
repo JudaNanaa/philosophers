@@ -6,7 +6,7 @@
 #    By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/06/30 17:22:38 by madamou          ###   ########.fr        #
+#    Updated: 2024/07/02 12:35:49 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,8 @@ $(NAME) : $(OBJS)
 
 $(OBJS_DIR)%.o : $(SRCS_DIR)%.c
 	$(DIR_DUP)
-	$(CC) $(C_FLAGS) -c -pthread -std=c11 $< -o $@
+	$(CC) $(C_FLAGS) -c  -pthread -std=c11 $< -o $@
+
 
 bonus :  $(BONUS)
 

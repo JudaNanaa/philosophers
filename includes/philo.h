@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:59:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/06/30 22:58:55 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/02 12:29:53 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ typedef struct s_data {
 	unsigned long long int timethinking;
 	unsigned long long int timestamp;
 	pthread_mutex_t mutex;
-	pthread_mutex_t mutexprintf;
-	pthread_mutex_t mutexfork;
-	pthread_mutex_t mutexdie;
+	pthread_mutex_t *mutexprintf;
+	pthread_mutex_t *mutexfork;
+	pthread_mutex_t *mutexdie;
 	pthread_mutex_t mutexdieread;
-	pthread_mutex_t mutexfinish;
+	pthread_mutex_t *mutexfinish;
 	struct s_data *before;
 	struct s_data *next;
 	struct s_data *first;

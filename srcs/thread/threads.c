@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 00:36:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/01 14:06:40 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/02 12:39:51 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,11 @@ int ft_creating_threads(t_philo *philo, pthread_t *threads)
 {
 	int i;
 	int nb_philo;
-	pthread_mutex_t mutex;
 	pthread_mutex_t mutexprintf;
 	pthread_mutex_t mutexfork;
 	pthread_mutex_t mutexdie;
 	pthread_mutex_t mutexfinish;
 
-	pthread_mutex_init(&mutex, NULL);
 	pthread_mutex_init(&mutexprintf, NULL);
 	pthread_mutex_init(&mutexfork, NULL);
 	pthread_mutex_init(&mutexdie, NULL);
@@ -82,11 +80,10 @@ int ft_creating_threads(t_philo *philo, pthread_t *threads)
 	nb_philo = philo->nb_philo;
 	while (i <= nb_philo - 1)
 	{
-		philo->mutex = mutex;
-		philo->mutexprintf = mutexprintf;
-		philo->mutexfork = mutexfork;
-		philo->mutexdie = mutexdie;
-		philo->mutexfinish = mutexfinish;
+		philo->mutexprintf = &mutexprintf;
+		philo->mutexfork = &mutexfork;
+		philo->mutexdie = &mutexdie;
+		philo->mutexfinish = &mutexfinish;
 		if (pthread_create(&threads[i], NULL, &ft_routine, philo) != 0)
 			return (printf("Error creating threads %d\n", i), 0);
 		philo = philo->next;
@@ -99,7 +96,6 @@ int ft_creating_threads(t_philo *philo, pthread_t *threads)
 			return (printf("Error waiting threads %d\n", i), 0);
 		++i;
 	}
-	pthread_mutex_destroy(&mutex);
 	pthread_mutex_destroy(&mutexprintf);
 	pthread_mutex_destroy(&mutexfork);
 	pthread_mutex_destroy(&mutexdie);
