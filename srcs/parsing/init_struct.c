@@ -23,6 +23,7 @@ t_philo *ft_lstnew(int id, t_philo *philo)
 	new->id = id;
 	new->fork = 1;
 	new->die = 0;
+	new->finish = 0;
 	new->nb_eat = philo->nb_eat;
 	new->time_die = philo->time_die;
 	new->time_eat = philo->time_eat;

@@ -31,6 +31,7 @@ typedef struct s_data {
 	int fork;
 	char *nb_eat_args;
 	int thinking;
+	int finish;
 	int die;
 	unsigned long long int timesleeping;
 	unsigned long long int timestart;
@@ -40,7 +41,10 @@ typedef struct s_data {
 	unsigned long long int timestamp;
 	pthread_mutex_t mutex;
 	pthread_mutex_t mutexprintf;
-	pthread_mutex_t mutexphilo;
+	pthread_mutex_t mutexfork;
+	pthread_mutex_t mutexdie;
+	pthread_mutex_t mutexdieread;
+	pthread_mutex_t mutexfinish;
 	struct s_data *before;
 	struct s_data *next;
 	struct s_data *first;
@@ -67,7 +71,9 @@ int ft_check_if_die(t_philo *philos);
 int ft_creating_threads(t_philo *data, pthread_t *philos);
 int ft_thread(t_philo *data);
 int ft_eating(t_philo *philo, t_philo *left);
-int ft_sleeping(t_philo *philo, t_philo *left);
+int ft_sleeping(t_philo *philo);
 int ft_thinking(t_philo *philo);
+int ft_change_or_check(t_philo *philo, t_philo *other, int cas);
+int ft_die(t_philo *philo, t_philo *buff, int cas);
 
 #endif // !FT_PHILO_H

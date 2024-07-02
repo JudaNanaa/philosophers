@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 00:36:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/06/30 23:03:37 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/01 14:06:40 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,16 @@
 
 int ft_mutex(t_philo *philo)
 {
-	if (philo->id != 1 && philo->id != philo->nb_philo)
-		if (philo->fork == 1 && philo->before->fork == 1)
+	if (philo->id != 1)
+		if (ft_change_or_check(philo, philo->before, 2) == 1)
 			if (ft_eating(philo, philo->before) == 0)
 				return (0);
 	if (philo->id == 1)
-		if (philo->fork == 1 && philo->last->fork == 1)
+		if (ft_change_or_check(philo, philo->last, 2) == 1)
 			if (ft_eating(philo, philo->last) == 0)
 				return (0);
-	if (philo->id == philo->nb_philo)
-		if (philo->fork == 1 && philo->first->fork == 1)
-			if (ft_eating(philo, philo->first) == 0)
-				return (0);
+	if (ft_die(philo, NULL, 2) == 1)
+		return (0);
 	return (ft_thinking(philo));	
 }
 
@@ -38,16 +36,18 @@ void *ft_routine(void *args)
 	t_philo *philo;
 
 	philo = (t_philo *)args;
+	usleep(500 * philo->id);
 	if (gettimeofday(&philo->curent_time, NULL) == -1)
 		return (NULL);
 	philo->timestart = ((philo->curent_time.tv_sec * 1000000) + philo->curent_time.tv_usec) / 1000;
+	ft_thinking(philo);
 	if (philo->nb_eat == -1)
 	{
 		while (1)
 		{
 			if (ft_mutex(philo) == 0)
 				return (NULL);
-			if (ft_check_if_die(philo)== 0)
+			if (ft_die(philo, NULL, 2) == 1)
 				return (NULL);
 		}
 	}
@@ -56,7 +56,7 @@ void *ft_routine(void *args)
 		{
 			if (ft_mutex(philo) == 0)
 				return (NULL);
-			if (ft_check_if_die(philo) == 0)
+			if (ft_die(philo, NULL, 2) == 1)
 				return (NULL);
 		}
 	}
@@ -69,15 +69,24 @@ int ft_creating_threads(t_philo *philo, pthread_t *threads)
 	int nb_philo;
 	pthread_mutex_t mutex;
 	pthread_mutex_t mutexprintf;
+	pthread_mutex_t mutexfork;
+	pthread_mutex_t mutexdie;
+	pthread_mutex_t mutexfinish;
 
 	pthread_mutex_init(&mutex, NULL);
 	pthread_mutex_init(&mutexprintf, NULL);
+	pthread_mutex_init(&mutexfork, NULL);
+	pthread_mutex_init(&mutexdie, NULL);
+	pthread_mutex_init(&mutexfinish, NULL);
 	i = 0;
 	nb_philo = philo->nb_philo;
 	while (i <= nb_philo - 1)
 	{
 		philo->mutex = mutex;
 		philo->mutexprintf = mutexprintf;
+		philo->mutexfork = mutexfork;
+		philo->mutexdie = mutexdie;
+		philo->mutexfinish = mutexfinish;
 		if (pthread_create(&threads[i], NULL, &ft_routine, philo) != 0)
 			return (printf("Error creating threads %d\n", i), 0);
 		philo = philo->next;
@@ -91,6 +100,10 @@ int ft_creating_threads(t_philo *philo, pthread_t *threads)
 		++i;
 	}
 	pthread_mutex_destroy(&mutex);
+	pthread_mutex_destroy(&mutexprintf);
+	pthread_mutex_destroy(&mutexfork);
+	pthread_mutex_destroy(&mutexdie);
+	pthread_mutex_destroy(&mutexfinish);
 	return (1);
 }
 
