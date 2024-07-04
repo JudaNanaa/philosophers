@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:17:33 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/04 22:50:44 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/05 01:22:22 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	*ft_routine(void *args)
 	philo = (t_philo *)args;
 	pthread_mutex_lock(philo->mutexprintf);
 	pthread_mutex_unlock(philo->mutexprintf);
+	if (philo->id % 2 == 0)
+		usleep(50);
 	if (ft_time(philo, 1) == 0)
 		return (NULL);
 	while (philo->nb_eat != 0)
@@ -51,6 +53,8 @@ void	ft_main_thread(t_philo *philo)
 
 int	ft_thinking(t_philo *philo)
 {
+	if (ft_get_die_status(philo) == 1)
+		return (0);
 	philo->timethinking = ft_time(philo, 2);
 	if (philo->timethinking == 0)
 		return (0);
@@ -70,24 +74,25 @@ int	ft_eating(t_philo *philo)
 		if (ft_taking_fork(philo, philo->before->mutexfork) == 0)
 			return (0);
 		if (ft_taking_fork(philo, philo->mutexfork) == 0)
-			return (0);
+			return (pthread_mutex_unlock(philo->before->mutexfork), 0);
 	}
 	else
 	{
 		if (ft_taking_fork(philo, philo->mutexfork) == 0)
 			return (0);
 		if (ft_taking_fork(philo, philo->before->mutexfork) == 0)
-			return (0);
+			return (pthread_mutex_unlock(philo->mutexfork), 0);
 	}
+	if (ft_get_die_status(philo) == 1)
+		return (ft_drop_fork(philo), 0);
 	philo->timeeating = ft_time(philo, 1);
 	if (philo->timeeating == 0)
-		return (0);
+		return (ft_drop_fork(philo), 0);
 	if (ft_printf("%lld %d is eating\n", philo->timeeating, philo) == 0)
-		return (0);
+		return (ft_drop_fork(philo), 0);
 	if (usleep(philo->time_eat * 1000) == -1)
-		return (0);
-	ft_drop_fork(philo);
-	--philo->nb_eat;
+		return (ft_drop_fork(philo), 0);
+	(ft_drop_fork(philo), --philo->nb_eat);
 	return (1);
 }
 
