@@ -15,11 +15,11 @@
 #include <sys/select.h>
 #include <unistd.h>
 
-void ft_init_mutex(t_mutex *mutex)
+void	ft_init_mutex(t_mutex *mutex)
 {
-	pthread_mutex_t mutexprintf;
-	pthread_mutex_t mutexdie;
-	pthread_mutex_t mutexfinish;
+	pthread_mutex_t	mutexprintf;
+	pthread_mutex_t	mutexdie;
+	pthread_mutex_t	mutexfinish;
 
 	pthread_mutex_init(&mutexprintf, NULL);
 	pthread_mutex_init(&mutexdie, NULL);
@@ -29,10 +29,10 @@ void ft_init_mutex(t_mutex *mutex)
 	mutex->mutexfinish = &mutexfinish;
 }
 
-void ft_destroy_mutex(t_mutex *mutex, t_philo *philo)
+void	ft_destroy_mutex(t_mutex *mutex, t_philo *philo)
 {
-	t_philo *tmp;
-	
+	t_philo	*tmp;
+
 	tmp = philo;
 	while (philo)
 	{
@@ -45,11 +45,11 @@ void ft_destroy_mutex(t_mutex *mutex, t_philo *philo)
 	pthread_mutex_destroy(mutex->mutexfinish);
 }
 
-int ft_mutex_to_philo(t_mutex *mutex, t_philo *philo)
+int	ft_mutex_to_philo(t_mutex *mutex, t_philo *philo)
 {
-	pthread_mutex_t *mutexfork;
-	t_philo *buff;
-	int i;
+	pthread_mutex_t	*mutexfork;
+	t_philo			*buff;
+	int				i;
 
 	i = 0;
 	buff = philo->first;
@@ -69,11 +69,11 @@ int ft_mutex_to_philo(t_mutex *mutex, t_philo *philo)
 	return (1);
 }
 
-int ft_creating_threads(t_philo *philo, pthread_t *threads)
+int	ft_creating_threads(t_philo *philo, pthread_t *threads)
 {
-	int i;
-	int nb_philo;
-	t_mutex mutex;
+	int		i;
+	int		nb_philo;
+	t_mutex	mutex;
 
 	i = -1;
 	nb_philo = philo->nb_philo;
@@ -98,14 +98,14 @@ int ft_creating_threads(t_philo *philo, pthread_t *threads)
 	return (ft_destroy_mutex(&mutex, philo), 1);
 }
 
-int ft_thread(t_philo *philo)
+int	ft_thread(t_philo *philo)
 {
-	pthread_t *threads;
+	pthread_t	*threads;
 
 	threads = malloc(sizeof(pthread_t) * philo->nb_philo);
 	if (!threads)
 		return (printf("Error malloc philos\n"), 0);
-	if(ft_creating_threads(philo, threads) == 0)
+	if (ft_creating_threads(philo, threads) == 0)
 		return (free(threads), 0);
 	free(threads);
 	return (1);

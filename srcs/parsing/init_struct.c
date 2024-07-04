@@ -13,9 +13,9 @@
 #include "../../includes/philo.h"
 #include <stdio.h>
 
-t_philo *ft_lstnew(int id, t_philo *philo)
+t_philo	*ft_lstnew(int id, t_philo *philo)
 {
-	t_philo *new;
+	t_philo	*new;
 
 	new = malloc(sizeof(t_philo));
 	if (!new)
@@ -37,9 +37,9 @@ t_philo *ft_lstnew(int id, t_philo *philo)
 	return (new);
 }
 
-t_philo *ft_add_back(t_philo *philos, t_philo *new)
+t_philo	*ft_add_back(t_philo *philos, t_philo *new)
 {
-	t_philo *buff;
+	t_philo	*buff;
 
 	buff = philos;
 	if (!philos)
@@ -48,7 +48,7 @@ t_philo *ft_add_back(t_philo *philos, t_philo *new)
 		new->before = NULL;
 	}
 	else
-	{	
+	{
 		while (buff->next)
 			buff = buff->next;
 		buff->next = new;
@@ -60,9 +60,9 @@ t_philo *ft_add_back(t_philo *philos, t_philo *new)
 	return (philos);
 }
 
-t_philo *ft_clear_philos(t_philo *philos)
+t_philo	*ft_clear_philos(t_philo *philos)
 {
-	t_philo *buff;
+	t_philo	*buff;
 
 	if (!philos)
 		return (NULL);
@@ -71,11 +71,11 @@ t_philo *ft_clear_philos(t_philo *philos)
 	return (ft_clear_philos(buff));
 }
 
-t_philo *ft_init_struct(t_philo *philo)
+t_philo	*ft_init_struct(t_philo *philo)
 {
-	int i;
-	t_philo *philos;
-	t_philo *new;
+	int		i;
+	t_philo	*philos;
+	t_philo	*new;
 
 	i = 1;
 	philos = NULL;
@@ -91,7 +91,7 @@ t_philo *ft_init_struct(t_philo *philo)
 	return (philos);
 }
 
-int ft_check_if_die(t_philo *philos)
+int	ft_check_if_die(t_philo *philos)
 {
 	philos = philos->first;
 	while (philos)
@@ -104,4 +104,3 @@ int ft_check_if_die(t_philo *philos)
 	}
 	return (1);
 }
-

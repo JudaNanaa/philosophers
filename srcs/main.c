@@ -15,10 +15,10 @@
 #include <stdio.h>
 #include <sys/time.h>
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_philo philo;
-	t_philo *philos;
+	t_philo	philo;
+	t_philo	*philos;
 
 	if (ft_parse_args(argc, argv, &philo) == 0)
 		return (1);

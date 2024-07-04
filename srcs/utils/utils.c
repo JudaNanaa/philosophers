@@ -12,11 +12,11 @@
 
 #include "../../includes/philo.h"
 
-long ft_atol(char *str)
+long	ft_atol(char *str)
 {
-	long result;
-	int i;
-	long sign;
+	long	result;
+	int		i;
+	long	sign;
 
 	result = 0;
 	i = 0;
@@ -38,14 +38,15 @@ long ft_atol(char *str)
 	return (result * sign);
 }
 
-unsigned long long int ft_time(t_philo *philo, int cas)
+unsigned long long int	ft_time(t_philo *philo, int cas)
 {
-	unsigned long long int nb;
+	unsigned long long int	nb;
+
 	if (gettimeofday(&philo->curent_time, NULL) == -1)
 		return (0);
-	nb = ((philo->curent_time.tv_sec * 1000000) + philo->curent_time.tv_usec) / 1000;
+	nb = ((philo->curent_time.tv_sec * 1000000) + philo->curent_time.tv_usec)
+		/ 1000;
 	if (cas == 1)
 		philo->timestart = nb;
 	return (nb);
 }
-

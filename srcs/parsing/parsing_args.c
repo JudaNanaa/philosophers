@@ -14,9 +14,9 @@
 #include <stdio.h>
 #include <strings.h>
 
-int ft_verify_if_good(t_philo *data, char **argv)
+int	ft_verify_if_good(t_philo *data, char **argv)
 {
-	int cpt;
+	int	cpt;
 
 	cpt = 0;
 	data->nb_philo = ft_atol(argv[1]);
@@ -34,10 +34,10 @@ int ft_verify_if_good(t_philo *data, char **argv)
 	return (cpt);
 }
 
-int ft_verify_if_number(char **argv)
+int	ft_verify_if_number(char **argv)
 {
-	int index;
-	int cpt;
+	int	index;
+	int	cpt;
 
 	cpt = 0;
 	index = 1;
@@ -55,7 +55,7 @@ int ft_verify_if_number(char **argv)
 	return (0);
 }
 
-int ft_parse_args(int argc, char **argv, t_philo *data)
+int	ft_parse_args(int argc, char **argv, t_philo *data)
 {
 	if (argc < 5 || argc > 6)
 		return (printf("Error number of arguments\n"), 0);
@@ -67,11 +67,11 @@ int ft_parse_args(int argc, char **argv, t_philo *data)
 	{
 		data->nb_eat = ft_atol(argv[5]);
 		if (data->nb_eat < 0)
-			return (printf("%ld not good for nb philo must eat\n", data->nb_eat), 0);
+			return (printf("%ld not good for nb philo must eat\n",
+					data->nb_eat), 0);
 	}
-	else 
+	else
 		data->nb_eat = -1;
 	data->nb_eat_args = argv[5];
 	return (1);
 }
-
