@@ -6,7 +6,7 @@
 #    By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/07/02 12:35:49 by madamou          ###   ########.fr        #
+#    Updated: 2024/07/03 19:55:57 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRCS_DIR = srcs/
 
 PARSING = $(addprefix parsing/, parsing_args.c parsing_utils.c init_struct.c)
 
-THREAD = $(addprefix thread/, threads.c threads_utils.c)
+THREAD = $(addprefix thread/, threads.c threads_utils.c )
 
 UTILS = $(addprefix utils/, utils.c)
 

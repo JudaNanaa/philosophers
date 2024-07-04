@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:59:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/02 12:29:53 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/04 04:34:51 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,9 @@ int ft_parse_args(int argc, char **argv, t_philo *data);
 
 
 // Utils
+unsigned long long int ft_time(t_philo *philo, int cas);
 long ft_atol(char *str);
 int	ft_check_if_number(char **argv, int index);
-void ft_init_mutex(t_mutex *mutex);
-void ft_destroy_mutex(t_mutex *mutex);
 
 // Struct
 t_philo *ft_init_struct(t_philo *philo);
@@ -84,6 +83,11 @@ int ft_eating(t_philo *philo, t_philo *left);
 int ft_sleeping(t_philo *philo);
 int ft_thinking(t_philo *philo);
 int ft_change_or_check(t_philo *philo, t_philo *other, int cas);
-int ft_die(t_philo *philo, t_philo *buff, int cas);
+int ft_die(t_philo *philo, int cas);
+
+// Mutex
+void ft_mutex_to_philo(t_mutex *mutex, t_philo *philo);
+void ft_destroy_mutex(t_mutex *mutex);
+void ft_init_mutex(t_mutex *mutex);
 
 #endif // !FT_PHILO_H

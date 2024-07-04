@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 08:12:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/02 10:13:56 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/03 19:41:48 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ t_philo *ft_clear_philos(t_philo *philos)
 {
 	t_philo *buff;
 
-	buff = philos->next;
 	if (!philos)
 		return (NULL);
+	buff = philos->next;
 	free(philos);
 	return (ft_clear_philos(buff));
 }
@@ -87,6 +87,7 @@ t_philo *ft_init_struct(t_philo *philo)
 		philos = ft_add_back(philos, new);
 		i++;
 	}
+	philos->first->before = philos->last;
 	return (philos);
 }
 
