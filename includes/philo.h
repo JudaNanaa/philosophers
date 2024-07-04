@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:59:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/04 04:34:51 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/04 22:47:23 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,22 @@ int ft_check_if_die(t_philo *philos);
 // Threads
 int ft_creating_threads(t_philo *data, pthread_t *philos);
 int ft_thread(t_philo *data);
-int ft_eating(t_philo *philo, t_philo *left);
+int ft_eating(t_philo *philo);
 int ft_sleeping(t_philo *philo);
 int ft_thinking(t_philo *philo);
-int ft_change_or_check(t_philo *philo, t_philo *other, int cas);
-int ft_die(t_philo *philo, int cas);
+int ft_die(t_philo *philo);
+int ft_printf(char *str, unsigned long long int time, t_philo *philo);
+int ft_get_die_status(t_philo *philo);
+void *ft_routine(void *args);
+void ft_main_thread(t_philo *philo);
+void ft_all_set_to_dead(t_philo *philo);
+int ft_taking_fork(t_philo *philo, pthread_mutex_t *mutex);
+void ft_drop_fork(t_philo *philo);
+
 
 // Mutex
-void ft_mutex_to_philo(t_mutex *mutex, t_philo *philo);
-void ft_destroy_mutex(t_mutex *mutex);
+int ft_mutex_to_philo(t_mutex *mutex, t_philo *philo);
+void ft_destroy_mutex(t_mutex *mutex, t_philo *philo);
 void ft_init_mutex(t_mutex *mutex);
 
 #endif // !FT_PHILO_H
