@@ -43,7 +43,6 @@ $(OBJS_DIR)%.o : $(SRCS_DIR)%.c
 	$(DIR_DUP)
 	$(CC) $(C_FLAGS) -c  -pthread -std=c11 $< -o $@
 
-
 bonus :  $(BONUS)
 
 clean : 

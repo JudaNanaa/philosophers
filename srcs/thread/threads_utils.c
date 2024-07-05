@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 17:04:57 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/04 22:47:29 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/05 19:59:27 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,26 @@ int	ft_get_die_status(t_philo *philo)
 	result = philo->die;
 	pthread_mutex_unlock(philo->mutexdie);
 	return (result);
+}
+
+int ft_usleep(t_philo *philo, unsigned long long time_sleep)
+{
+	unsigned long long time_start;
+	unsigned long long time;
+
+	time_start = ft_time(philo, 2);
+	if (time_start == 0)
+		return (-1);
+	time = time_start;
+	while (time - time_start < time_sleep)
+	{
+		if (usleep(10) == -1)
+			return (-1);
+		time = ft_time(philo, 2);
+		if (time == 0)
+			return (-1);	
+	}
+	return (1);
 }
 
 void	ft_all_set_to_dead(t_philo *philo)

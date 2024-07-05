@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 08:10:23 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/03 21:10:01 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/05 20:09:05 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,10 @@ unsigned long long int	ft_time(t_philo *philo, int cas)
 
 	if (gettimeofday(&philo->curent_time, NULL) == -1)
 		return (0);
-	nb = ((philo->curent_time.tv_sec * 1000000) + philo->curent_time.tv_usec)
-		/ 1000;
+	nb = ((philo->curent_time.tv_sec * 1000000) + philo->curent_time.tv_usec);
 	if (cas == 1)
-		philo->timestart = nb;
-	return (nb);
+		philo->timestart = nb / 1000;
+	if (cas == 3)
+		return (nb);
+	return (nb / 1000);
 }

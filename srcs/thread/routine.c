@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:17:33 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/05 01:22:22 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/05 20:01:57 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,17 @@ void	*ft_routine(void *args)
 	philo = (t_philo *)args;
 	pthread_mutex_lock(philo->mutexprintf);
 	pthread_mutex_unlock(philo->mutexprintf);
-	if (philo->id % 2 == 0)
-		usleep(50);
 	if (ft_time(philo, 1) == 0)
 		return (NULL);
+	if (philo->nb_philo % 2 != 0 && philo->id % 2 != 0)
+		ft_usleep(philo, 20);
 	while (philo->nb_eat != 0)
 	{
 		if (ft_thinking(philo) == 0)
 			return (NULL);
 		if (ft_eating(philo) == 0)
+			return (NULL);
+		if (philo->nb_eat == 0)
 			return (NULL);
 		if (ft_sleeping(philo) == 0)
 			return (NULL);
@@ -69,7 +71,7 @@ int	ft_thinking(t_philo *philo)
 
 int	ft_eating(t_philo *philo)
 {
-	if (philo->id % 2 != 0)
+	if (philo->nb_philo % 2 != 0 || philo->id % 2 != 0)
 	{
 		if (ft_taking_fork(philo, philo->before->mutexfork) == 0)
 			return (0);
@@ -90,7 +92,7 @@ int	ft_eating(t_philo *philo)
 		return (ft_drop_fork(philo), 0);
 	if (ft_printf("%lld %d is eating\n", philo->timeeating, philo) == 0)
 		return (ft_drop_fork(philo), 0);
-	if (usleep(philo->time_eat * 1000) == -1)
+	if (ft_usleep(philo, philo->time_eat) == -1)
 		return (ft_drop_fork(philo), 0);
 	(ft_drop_fork(philo), --philo->nb_eat);
 	return (1);
@@ -108,13 +110,13 @@ int	ft_sleeping(t_philo *philo)
 	if (philo->timesleeping + philo->time_sleep
 		- philo->timestart > (unsigned long long)philo->time_die)
 	{
-		if (usleep((philo->timesleeping - philo->timestart + philo->time_die)
-				* 1000) == -1)
+		if (ft_usleep(philo, (philo->timesleeping - philo->timestart
+			+ philo->time_die)) == -1)
 			return (0);
 		ft_die(philo);
 		return (0);
 	}
-	if (usleep(philo->time_sleep * 1000) == -1)
+	if (ft_usleep(philo, philo->time_sleep) == -1)
 		return (0);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 22:42:13 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/05 00:40:47 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/05 18:01:28 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_taking_fork(t_philo *philo, pthread_mutex_t *mutex)
 	if (ft_get_die_status(philo) == 1)
 		return (0);
 	pthread_mutex_lock(mutex);
+	if (ft_get_die_status(philo) == 1)
+		return (pthread_mutex_unlock(philo->mutexfork), 0);
 	philo->timeeating = ft_time(philo, 2);
 	if (philo->timeeating == 0)
 		return (pthread_mutex_unlock(philo->mutexfork), 0);
@@ -31,7 +33,7 @@ int	ft_taking_fork(t_philo *philo, pthread_mutex_t *mutex)
 
 void	ft_drop_fork(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
+	if (philo->id % 2 != 0)
 	{
 		pthread_mutex_unlock(philo->before->mutexfork);
 		pthread_mutex_unlock(philo->mutexfork);

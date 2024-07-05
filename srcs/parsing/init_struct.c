@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 08:12:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/03 19:41:48 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/05 17:37:26 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,10 @@ t_philo	*ft_lstnew(int id, t_philo *philo)
 	if (!new)
 		return (NULL);
 	new->id = id;
-	new->fork = 1;
 	new->die = 0;
-	new->finish = 0;
 	new->nb_eat = philo->nb_eat;
 	new->time_die = philo->time_die;
 	new->time_eat = philo->time_eat;
-	new->thinking = 0;
 	new->time_sleep = philo->time_sleep;
 	new->nb_eat = philo->nb_eat;
 	new->nb_eat_args = philo->nb_eat_args;

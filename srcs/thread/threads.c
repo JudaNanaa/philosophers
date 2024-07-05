@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 00:36:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/04 22:47:16 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/05 17:40:55 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,11 @@ void	ft_init_mutex(t_mutex *mutex)
 {
 	pthread_mutex_t	mutexprintf;
 	pthread_mutex_t	mutexdie;
-	pthread_mutex_t	mutexfinish;
 
 	pthread_mutex_init(&mutexprintf, NULL);
 	pthread_mutex_init(&mutexdie, NULL);
-	pthread_mutex_init(&mutexfinish, NULL);
 	mutex->mutexprintf = &mutexprintf;
 	mutex->mutexdie = &mutexdie;
-	mutex->mutexfinish = &mutexfinish;
 }
 
 void	ft_destroy_mutex(t_mutex *mutex, t_philo *philo)
@@ -42,7 +39,6 @@ void	ft_destroy_mutex(t_mutex *mutex, t_philo *philo)
 	free(tmp->first->mutexfork);
 	pthread_mutex_destroy(mutex->mutexprintf);
 	pthread_mutex_destroy(mutex->mutexdie);
-	pthread_mutex_destroy(mutex->mutexfinish);
 }
 
 int	ft_mutex_to_philo(t_mutex *mutex, t_philo *philo)
@@ -62,7 +58,6 @@ int	ft_mutex_to_philo(t_mutex *mutex, t_philo *philo)
 		philo->mutexprintf = mutex->mutexprintf;
 		philo->mutexfork = &mutexfork[i++];
 		philo->mutexdie = mutex->mutexdie;
-		philo->mutexfinish = mutex->mutexfinish;
 		philo = philo->next;
 	}
 	philo = buff;

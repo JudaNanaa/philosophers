@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:59:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/04 22:47:23 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/05 19:54:26 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct s_data
 	long					time_sleep;
 	int						id;
 	long					nb_eat;
-	int						fork;
 	char					*nb_eat_args;
 	int						thinking;
 	int						finish;
@@ -40,11 +39,9 @@ typedef struct s_data
 	unsigned long long int	timeeating;
 	unsigned long long int	timethinking;
 	unsigned long long int	timestamp;
-	pthread_mutex_t			*mutex;
 	pthread_mutex_t			*mutexprintf;
 	pthread_mutex_t			*mutexfork;
 	pthread_mutex_t			*mutexdie;
-	pthread_mutex_t			*mutexfinish;
 	struct s_data			*before;
 	struct s_data			*next;
 	struct s_data			*first;
@@ -54,11 +51,9 @@ typedef struct s_data
 
 typedef struct s_mutex
 {
-	pthread_mutex_t			*mutex;
 	pthread_mutex_t			*mutexprintf;
 	pthread_mutex_t			*mutexfork;
 	pthread_mutex_t			*mutexdie;
-	pthread_mutex_t			*mutexfinish;
 }							t_mutex;
 
 extern int					usleep(__useconds_t __useconds);
@@ -93,6 +88,7 @@ void						ft_all_set_to_dead(t_philo *philo);
 int							ft_taking_fork(t_philo *philo,
 								pthread_mutex_t *mutex);
 void						ft_drop_fork(t_philo *philo);
+int ft_usleep(t_philo *philo, unsigned long long time_sleep);
 
 // Mutex
 int							ft_mutex_to_philo(t_mutex *mutex, t_philo *philo);
