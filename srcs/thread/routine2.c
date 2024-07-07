@@ -44,3 +44,36 @@ void	ft_drop_fork(t_philo *philo)
 		pthread_mutex_unlock(philo->before->mutexfork);
 	}
 }
+
+int	ft_check_if_all_finish_eat(t_philo *philo)
+{
+	philo = philo->first;
+	while (philo)
+	{
+		if (ft_get_or_set_nb_eat(philo, 2) != 0)
+			return (0);
+		philo = philo->next;
+	}
+	return (1);
+}
+
+int	ft_get_or_set_nb_eat(t_philo *philo, int cas)
+{
+	int	nb;
+
+	nb = -1;
+	if (cas == 1)
+	{
+		pthread_mutex_lock(philo->mutex_nb_eat);
+		if (philo->nb_eat != -1)
+			--philo->nb_eat;
+		pthread_mutex_unlock(philo->mutex_nb_eat);
+	}
+	if (cas == 2)
+	{
+		pthread_mutex_lock(philo->mutex_nb_eat);
+		nb = philo->nb_eat;
+		pthread_mutex_unlock(philo->mutex_nb_eat);
+	}
+	return (nb);
+}

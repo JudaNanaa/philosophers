@@ -42,6 +42,7 @@ typedef struct s_data
 	pthread_mutex_t			*mutexprintf;
 	pthread_mutex_t			*mutexfork;
 	pthread_mutex_t			*mutexdie;
+	pthread_mutex_t			*mutex_nb_eat;
 	struct s_data			*before;
 	struct s_data			*next;
 	struct s_data			*first;
@@ -88,7 +89,10 @@ void						ft_all_set_to_dead(t_philo *philo);
 int							ft_taking_fork(t_philo *philo,
 								pthread_mutex_t *mutex);
 void						ft_drop_fork(t_philo *philo);
-int ft_usleep(t_philo *philo, unsigned long long time_sleep);
+int							ft_usleep(t_philo *philo,
+								unsigned long long time_sleep);
+int							ft_get_or_set_nb_eat(t_philo *philo, int cas);
+int							ft_check_if_all_finish_eat(t_philo *philo);
 
 // Mutex
 int							ft_mutex_to_philo(t_mutex *mutex, t_philo *philo);

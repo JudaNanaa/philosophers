@@ -46,8 +46,8 @@ unsigned long long int	ft_time(t_philo *philo, int cas)
 		return (0);
 	nb = ((philo->curent_time.tv_sec * 1000000) + philo->curent_time.tv_usec);
 	if (cas == 1)
-		philo->timestart = nb / 1000;
+		philo->timestart = nb;
 	if (cas == 3)
 		return (nb);
-	return (nb / 1000);
+	return (nb);
 }

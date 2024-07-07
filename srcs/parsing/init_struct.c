@@ -23,9 +23,9 @@ t_philo	*ft_lstnew(int id, t_philo *philo)
 	new->id = id;
 	new->die = 0;
 	new->nb_eat = philo->nb_eat;
-	new->time_die = philo->time_die;
-	new->time_eat = philo->time_eat;
-	new->time_sleep = philo->time_sleep;
+	new->time_die = philo->time_die * 1000;
+	new->time_eat = philo->time_eat * 1000;
+	new->time_sleep = philo->time_sleep * 1000;
 	new->nb_eat = philo->nb_eat;
 	new->nb_eat_args = philo->nb_eat_args;
 	new->nb_philo = philo->nb_philo;

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
+#include <stdio.h>
 
 void	*ft_routine(void *args)
 {
@@ -49,6 +50,8 @@ void	ft_main_thread(t_philo *philo)
 			ft_all_set_to_dead(philo);
 			return ;
 		}
+		if (ft_check_if_all_finish_eat(philo) == 1)
+			return ;
 		philo = philo->before;
 	}
 }
@@ -94,7 +97,7 @@ int	ft_eating(t_philo *philo)
 		return (ft_drop_fork(philo), 0);
 	if (ft_usleep(philo, philo->time_eat) == -1)
 		return (ft_drop_fork(philo), 0);
-	(ft_drop_fork(philo), --philo->nb_eat);
+	(ft_drop_fork(philo), ft_get_or_set_nb_eat(philo, 1));
 	return (1);
 }
 
@@ -111,7 +114,7 @@ int	ft_sleeping(t_philo *philo)
 		- philo->timestart > (unsigned long long)philo->time_die)
 	{
 		if (ft_usleep(philo, (philo->timesleeping - philo->timestart
-			+ philo->time_die)) == -1)
+					+ philo->time_die)) == -1)
 			return (0);
 		ft_die(philo);
 		return (0);

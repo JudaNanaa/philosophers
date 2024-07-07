@@ -44,6 +44,7 @@ void	ft_destroy_mutex(t_mutex *mutex, t_philo *philo)
 int	ft_mutex_to_philo(t_mutex *mutex, t_philo *philo)
 {
 	pthread_mutex_t	*mutexfork;
+	pthread_mutex_t	*mutex_nb_eat;
 	t_philo			*buff;
 	int				i;
 
@@ -52,10 +53,15 @@ int	ft_mutex_to_philo(t_mutex *mutex, t_philo *philo)
 	mutexfork = malloc(sizeof(pthread_mutex_t) * philo->nb_philo);
 	if (!mutexfork)
 		return (0);
+	mutex_nb_eat = malloc(sizeof(pthread_mutex_t) * philo->nb_philo);
+	if (!mutex_nb_eat)
+		return (free(mutex_nb_eat), 0);
 	while (philo)
 	{
 		pthread_mutex_init(&mutexfork[i], NULL);
+		pthread_mutex_init(&mutex_nb_eat[i], NULL);
 		philo->mutexprintf = mutex->mutexprintf;
+		philo->mutex_nb_eat = &mutex_nb_eat[i];
 		philo->mutexfork = &mutexfork[i++];
 		philo->mutexdie = mutex->mutexdie;
 		philo = philo->next;

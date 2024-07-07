@@ -21,7 +21,7 @@ int	ft_printf(char *str, unsigned long long int time, t_philo *philo)
 	pthread_mutex_lock(philo->mutexprintf);
 	if (ft_get_die_status(philo) == 0)
 	{
-		time = ft_time(philo, 2);
+		time = ft_time(philo, 2) / 1000;
 		if (time == 0)
 			return (pthread_mutex_unlock(philo->mutexprintf), 0);
 		printf(str, time, philo->id);
@@ -48,10 +48,10 @@ int	ft_get_die_status(t_philo *philo)
 	return (result);
 }
 
-int ft_usleep(t_philo *philo, unsigned long long time_sleep)
+int	ft_usleep(t_philo *philo, unsigned long long time_sleep)
 {
-	unsigned long long time_start;
-	unsigned long long time;
+	unsigned long long	time_start;
+	unsigned long long	time;
 
 	time_start = ft_time(philo, 2);
 	if (time_start == 0)
@@ -63,7 +63,7 @@ int ft_usleep(t_philo *philo, unsigned long long time_sleep)
 			return (-1);
 		time = ft_time(philo, 2);
 		if (time == 0)
-			return (-1);	
+			return (-1);
 	}
 	return (1);
 }
@@ -77,7 +77,7 @@ void	ft_all_set_to_dead(t_philo *philo)
 	if (time_death == 0)
 		return ;
 	buff = philo;
-	printf("%lld %d died\n", time_death, buff->id);
+	printf("%lld %d died\n", time_death / 1000, buff->id);
 	pthread_mutex_lock(buff->mutexdie);
 	philo = philo->first;
 	while (philo)
