@@ -18,15 +18,15 @@ int	ft_taking_fork(t_philo *philo, pthread_mutex_t *mutex)
 		return (0);
 	pthread_mutex_lock(mutex);
 	if (ft_get_die_status(philo) == 1)
-		return (pthread_mutex_unlock(philo->mutexfork), 0);
+		return (pthread_mutex_unlock(mutex), 0);
 	philo->timeeating = ft_time(philo, 2);
 	if (philo->timeeating == 0)
-		return (pthread_mutex_unlock(philo->mutexfork), 0);
+		return (pthread_mutex_unlock(mutex), 0);
 	if (philo->timeeating
 		- philo->timestart > (unsigned long long)philo->time_die)
 	{
 		ft_die(philo);
-		return (pthread_mutex_unlock(philo->mutexfork), 0);
+		return (pthread_mutex_unlock(mutex), 0);
 	}
 	return (ft_printf("%lld %d has taken a fork\n", philo->timeeating, philo));
 }

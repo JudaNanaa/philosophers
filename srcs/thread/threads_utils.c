@@ -64,6 +64,8 @@ int	ft_usleep(t_philo *philo, unsigned long long time_sleep)
 		time = ft_time(philo, 2);
 		if (time == 0)
 			return (-1);
+		if (time - philo->timeeating >= (unsigned long long)philo->time_die)
+			return (ft_die(philo), -1);
 	}
 	return (1);
 }

@@ -110,15 +110,6 @@ int	ft_sleeping(t_philo *philo)
 		return (0);
 	if (ft_printf("%lld %d is sleeping\n", philo->timesleeping, philo) == 0)
 		return (0);
-	if (philo->timesleeping + philo->time_sleep
-		- philo->timestart > (unsigned long long)philo->time_die)
-	{
-		if (ft_usleep(philo, (philo->timesleeping - philo->timestart
-					+ philo->time_die)) == -1)
-			return (0);
-		ft_die(philo);
-		return (0);
-	}
 	if (ft_usleep(philo, philo->time_sleep) == -1)
 		return (0);
 	return (1);
