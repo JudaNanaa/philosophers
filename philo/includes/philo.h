@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:59:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/05 19:54:26 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/10 01:32:32 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int							ft_usleep(t_philo *philo,
 								unsigned long long time_sleep);
 int							ft_get_or_set_nb_eat(t_philo *philo, int cas);
 int							ft_check_if_all_finish_eat(t_philo *philo);
+void						ft_one_philo(t_philo *philo);
 
 // Mutex
 int							ft_mutex_to_philo(t_mutex *mutex, t_philo *philo);

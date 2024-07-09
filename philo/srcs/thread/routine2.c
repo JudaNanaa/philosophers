@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 22:42:13 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/05 18:01:28 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/10 01:32:20 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,23 @@ int	ft_get_or_set_nb_eat(t_philo *philo, int cas)
 		pthread_mutex_unlock(philo->mutex_nb_eat);
 	}
 	return (nb);
+}
+
+void	ft_one_philo(t_philo *philo)
+{
+	if (ft_thinking(philo) == 0)
+		return ;
+	if (ft_taking_fork(philo, philo->mutexfork) == 0)
+		return ;
+	if (ft_get_die_status(philo) == 1)
+	{
+		pthread_mutex_unlock(philo->mutexfork);
+		return ;
+	}
+	if (ft_usleep(philo, philo->time_die) == -1)
+	{
+		pthread_mutex_unlock(philo->mutexfork);
+		return ;
+	}
+	ft_die(philo);
 }

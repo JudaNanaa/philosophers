@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:17:33 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/05 20:01:57 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/10 01:28:58 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ void	*ft_routine(void *args)
 	pthread_mutex_unlock(philo->mutexprintf);
 	if (ft_time(philo, 1) == 0)
 		return (NULL);
-	if (philo->nb_philo % 2 != 0 && philo->id % 2 != 0)
-		ft_usleep(philo, 20);
-	while (philo->nb_eat != 0)
+	philo->timeeating = philo->timestart;
+	if (philo->nb_philo % 2 != 0 && philo->id % 2 == 0)
+		ft_usleep(philo, philo->nb_eat / 10000);
+	while (philo->nb_philo != 1)
 	{
 		if (ft_thinking(philo) == 0)
 			return (NULL);
@@ -37,6 +38,7 @@ void	*ft_routine(void *args)
 		if (ft_get_die_status(philo) == 1)
 			return (NULL);
 	}
+	ft_one_philo(philo);
 	return (NULL);
 }
 
@@ -64,7 +66,7 @@ int	ft_thinking(t_philo *philo)
 	if (philo->timethinking == 0)
 		return (0);
 	if (philo->timethinking
-		- philo->timestart > (unsigned long long)philo->time_die)
+		- philo->timeeating > (unsigned long long)philo->time_die)
 	{
 		ft_die(philo);
 		return (0);

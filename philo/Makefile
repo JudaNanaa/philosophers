@@ -6,7 +6,7 @@
 #    By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/07/04 22:47:39 by madamou          ###   ########.fr        #
+#    Updated: 2024/07/08 17:21:58 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRCS = main.c $(PARSING) $(THREAD) $(UTILS)
 SRCS := $(SRCS:%=$(SRCS_DIR)/%)
 
 OBJS = $(SRCS:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
+
 
 DIR_DUP = mkdir -p $(@D)
 
