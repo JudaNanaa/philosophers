@@ -6,25 +6,25 @@
 #    By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/07/09 01:54:06 by madamou          ###   ########.fr        #
+#    Updated: 2024/07/10 05:33:30 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 
-C_FLAGS = -Wall -Wextra -Werror -O3 -g3
+C_FLAGS = -Wall -Wextra -Werror
 
 SRCS_DIR = srcs/
 
-PARSING = $(addprefix parsing/, parsing_args.c parsing_utils.c init_struct.c)
+PARSING = $(addprefix parsing/, parsing_args_bonus.c parsing_utils_bonus.c init_struct_bonus.c)
 
-PROCESS = $(addprefix process/, process.c routine.c)
+PROCESS = $(addprefix process/, process_bonus.c routine_bonus.c process_utils_bonus.c routine2_bonus.c semaphores_bonus.c)
 
-UTILS = $(addprefix utils/, utils.c)
+UTILS = $(addprefix utils/, utils_bonus.c ft_itoa_bonus.c)
 
 OBJS_DIR = .objets/
 
-SRCS = main.c $(PARSING) $(PROCESS) $(UTILS)
+SRCS = main_bonus.c $(PARSING) $(PROCESS) $(UTILS)
 
 SRCS := $(SRCS:%=$(SRCS_DIR)/%)
 
@@ -33,7 +33,7 @@ OBJS = $(SRCS:$(SRCS_DIR)%.c=$(OBJS_DIR)%.o)
 
 DIR_DUP = mkdir -p $(@D)
 
-NAME = philo 
+NAME = philo_bonus
 
 all : $(NAME)
 

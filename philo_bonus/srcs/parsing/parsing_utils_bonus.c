@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parsing_utils_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/27 13:57:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/02 10:07:06 by madamou          ###   ########.fr       */
+/*   Created: 2024/06/28 17:36:31 by madamou           #+#    #+#             */
+/*   Updated: 2024/07/10 05:31:39 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
-#include <bits/types/struct_timeval.h>
+#include "../../includes/philo_bonus.h"
 #include <stdio.h>
-#include <sys/time.h>
 
-int	main(int argc, char **argv)
+int	ft_check_if_number(char **argv, int index)
 {
-	t_philo	philo;
-	t_philo	*philos;
+	int	i;
 
-	if (ft_parse_args(argc, argv, &philo) == 0)
-		return (1);
-	philos = ft_init_struct(&philo);
-	ft_thread(philos);
-	ft_clear_philos(philos);
-	return (0);
+	i = 0;
+	while (argv[index][i])
+	{
+		if ((argv[index][i] < '0' || argv[index][i] > '9')
+			&& (argv[index][i] != '-' && argv[index][i] != '+'))
+			return (0);
+		if (argv[index][i] == '-' || argv[index][i] == '+')
+		{
+			if (argv[index][i + 1] < '0' || argv[index][i + 1] > '9' || i != 0)
+				return (0);
+		}
+		i++;
+	}
+	return (1);
 }
