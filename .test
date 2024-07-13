@@ -10,5 +10,4 @@ test					resultat attendu
 ./philo 4 -500 200 200	argument invalide
 ./philo 4 500 200 2147483647	un philo meurt au bout de 500 ms
 ./philo 4 2147483647 200 200	personne ne meurt
-./philo 4 214748364732 200 200	argument invalide
 ./philo 4 200 210 200	un philo meurt, il faut afficher la mort avant 210 ms

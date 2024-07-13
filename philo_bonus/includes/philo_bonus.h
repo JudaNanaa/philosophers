@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:59:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/10 05:33:04 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/13 06:07:16 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,18 @@ typedef struct s_sema
 	sem_t					*sem_die;
 }							t_sema;
 
+typedef struct s_checker
+{
+	pid_t					*pid;
+	long					nb_philo;
+	int						i;
+	t_philo					*philo;
+	int						*kill;
+	sem_t					*sem_kill;
+	struct s_checker		*first;
+
+}							t_checker;
+
 extern int					usleep(__useconds_t __useconds);
 
 // Parsing
@@ -82,7 +94,8 @@ int							ft_check_if_die(t_philo *philos);
 
 // Process
 int							ft_thread(t_philo *data);
-int							ft_creating_process(t_philo *philo, pid_t *pid);
+int							ft_creating_process(t_philo *philo, pid_t *pid,
+								pthread_t *threads);
 int							ft_thinking(t_philo *philo);
 int							ft_eating(t_philo *philo);
 int							ft_sleeping(t_philo *philo);
@@ -95,5 +108,9 @@ int							ft_semaphore_to_philo(t_sema *semaphore,
 								t_philo *philo);
 int							ft_init_semaphores(t_sema *semaphores);
 void						ft_semaphore_close(t_philo *philo);
+void						*ft_routine_threads(void *args);
+t_checker					*ft_checker_in_static(t_checker *checker, int cas);
+t_checker					*ft_init_checker(t_philo *philo, pid_t *pid, int i);
+void						ft_kill(t_checker *checker);
 
 #endif // !FT_PHILO_H
