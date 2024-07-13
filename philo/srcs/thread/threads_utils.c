@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 17:04:57 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/13 06:15:16 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/13 16:56:00 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_usleep(t_philo *philo, unsigned long long time_sleep)
 	time = time_start;
 	while (time - time_start < time_sleep)
 	{
-		if (usleep(10) == -1)
+		if (usleep(100) == -1)
 			return (-1);
 		time = ft_time(philo, 2);
 		if (time == 0)

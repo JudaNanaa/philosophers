@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:59:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/13 06:07:16 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/13 16:57:38 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,7 @@ void						*ft_routine_threads(void *args);
 t_checker					*ft_checker_in_static(t_checker *checker, int cas);
 t_checker					*ft_init_checker(t_philo *philo, pid_t *pid, int i);
 void						ft_kill(t_checker *checker);
+int							ft_create_threads(t_philo *philo,
+								pthread_t *threads, pid_t *pid);
 
 #endif // !FT_PHILO_H
