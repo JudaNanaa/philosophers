@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 00:36:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/05 17:40:55 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/16 14:38:03 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,29 @@
 #include <sys/select.h>
 #include <unistd.h>
 
-void	ft_init_mutex(t_mutex *mutex)
+int	ft_init_mutex(t_mutex *mutex)
 {
-	pthread_mutex_t	mutexprintf;
-	pthread_mutex_t	mutexdie;
+	pthread_mutex_t	*mutexprintf;
+	pthread_mutex_t	*mutexdie;
 
-	pthread_mutex_init(&mutexprintf, NULL);
-	pthread_mutex_init(&mutexdie, NULL);
-	mutex->mutexprintf = &mutexprintf;
-	mutex->mutexdie = &mutexdie;
+	mutexprintf = malloc(sizeof(pthread_mutex_t));
+	if (!mutexprintf)
+	{
+		printf("Error malloc mutex\n");
+		return (-1);
+	}
+	mutexdie = malloc(sizeof(pthread_mutex_t));
+	if (!mutexdie)
+	{
+		printf("Error malloc mutex\n");
+		free(mutexprintf);
+		return (-1);
+	}
+	pthread_mutex_init(mutexprintf, NULL);
+	pthread_mutex_init(mutexdie, NULL);
+	mutex->mutexprintf = mutexprintf;
+	mutex->mutexdie = mutexdie;
+	return (0);
 }
 
 void	ft_destroy_mutex(t_mutex *mutex, t_philo *philo)
@@ -78,8 +92,7 @@ int	ft_creating_threads(t_philo *philo, pthread_t *threads)
 
 	i = -1;
 	nb_philo = philo->nb_philo;
-	ft_init_mutex(&mutex);
-	if (ft_mutex_to_philo(&mutex, philo) == 0)
+	if (ft_init_mutex(&mutex) == -1 || ft_mutex_to_philo(&mutex, philo) == 0)
 		return (0);
 	pthread_mutex_lock(philo->mutexprintf);
 	while (++i <= nb_philo - 1)

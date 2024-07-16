@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:59:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/10 01:32:32 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/16 14:30:40 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,6 @@ void						ft_one_philo(t_philo *philo);
 // Mutex
 int							ft_mutex_to_philo(t_mutex *mutex, t_philo *philo);
 void						ft_destroy_mutex(t_mutex *mutex, t_philo *philo);
-void						ft_init_mutex(t_mutex *mutex);
+int							ft_init_mutex(t_mutex *mutex);
 
 #endif // !FT_PHILO_H
