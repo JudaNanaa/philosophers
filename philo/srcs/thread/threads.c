@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 00:36:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/16 14:38:03 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/16 14:53:32 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ void	ft_destroy_mutex(t_mutex *mutex, t_philo *philo)
 	free(tmp->first->mutexfork);
 	pthread_mutex_destroy(mutex->mutexprintf);
 	pthread_mutex_destroy(mutex->mutexdie);
+	free(mutex->mutexprintf);
+	free(mutex->mutexdie);
 }
 
 int	ft_mutex_to_philo(t_mutex *mutex, t_philo *philo)
