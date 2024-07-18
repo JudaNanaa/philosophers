@@ -72,6 +72,11 @@ Ce dépôt contient la réalisation du projet Philosophers de l'école 42. Le pr
    ```
    ./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
    ```
+	Exemple :
+   ```
+   ./philo 4 500 200 200
+   ./philo 10 800 300 300 7
+   ```
 
 ### Partie Bonus
 
@@ -88,4 +93,9 @@ Ce dépôt contient la réalisation du projet Philosophers de l'école 42. Le pr
 3. Exécutez le programme :
    ```
    ./philo_bonus number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
+   ```
+	Exemple :
+   ```
+   ./philo_bonus 4 500 200 200
+   ./philo_bonus 10 800 300 300 7
    ```
