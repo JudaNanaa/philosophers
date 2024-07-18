@@ -6,15 +6,11 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 01:48:26 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/13 04:54:59 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/18 19:43:11 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo_bonus.h"
-#include <pthread.h>
-#include <stdio.h>
-#include <sys/time.h>
-#include <unistd.h>
 
 int	ft_printf(char *str, unsigned long long int time, t_philo *philo)
 {

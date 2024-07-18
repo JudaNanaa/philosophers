@@ -6,12 +6,11 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:17:33 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/10 05:32:19 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/18 19:43:06 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo_bonus.h"
-#include <stdio.h>
 
 void	ft_routine(t_philo *philo)
 {

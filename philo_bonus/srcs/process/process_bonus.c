@@ -6,13 +6,11 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 00:36:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/13 06:12:10 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/18 19:43:24 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo_bonus.h"
-#include <semaphore.h>
-#include <stdio.h>
 
 int	ft_fork_create(pid_t *pid, t_philo *philo, int i, pthread_t *threads)
 {

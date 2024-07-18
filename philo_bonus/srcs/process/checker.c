@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 06:02:48 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/13 06:13:23 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/18 19:40:58 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ void	*ft_routine_threads(void *args)
 		printf("%lld %d died\n", time_death / 1000, status);
 		ft_kill(checker);
 		sem_post(checker->philo->sem_printf);
-		ft_checker_in_static(checker->first, 1);
 	}
+	ft_checker_in_static(checker->first, 1);
 	return (NULL);
 }
 
