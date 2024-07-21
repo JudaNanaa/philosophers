@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:57:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/10 05:32:43 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/21 07:01:22 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char **argv)
 	if (ft_parse_args(argc, argv, &philo) == 0)
 		return (1);
 	philos = ft_init_struct(&philo);
-	ft_thread(philos);
+	ft_process(philos);
 	ft_clear_philos(philos);
 	return (0);
 }

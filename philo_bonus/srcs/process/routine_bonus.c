@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:17:33 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/18 19:43:06 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/21 06:59:06 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	ft_routine(t_philo *philo)
 {
-	sem_wait(philo->sem_printf);
-	sem_post(philo->sem_printf);
 	sem_post(philo->sem_fork);
 	if (ft_time(philo, 1) == 0)
 		return ;

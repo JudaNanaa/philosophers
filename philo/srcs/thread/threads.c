@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 00:36:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/16 14:53:32 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/21 06:55:56 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,12 @@ int	ft_creating_threads(t_philo *philo, pthread_t *threads)
 	nb_philo = philo->nb_philo;
 	if (ft_init_mutex(&mutex) == -1 || ft_mutex_to_philo(&mutex, philo) == 0)
 		return (0);
-	pthread_mutex_lock(philo->mutexprintf);
 	while (++i <= nb_philo - 1)
 	{
 		if (pthread_create(&threads[i], NULL, &ft_routine, philo) != 0)
 			return (printf("Error creating threads %d\n", i), 0);
 		philo = philo->before;
 	}
-	pthread_mutex_unlock(philo->mutexprintf);
 	ft_main_thread(philo);
 	i = -1;
 	while (++i <= nb_philo - 1)

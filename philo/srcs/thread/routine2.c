@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 22:42:13 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/10 01:32:20 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/21 06:47:32 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_taking_fork(t_philo *philo, pthread_mutex_t *mutex)
 	if (philo->timeeating == 0)
 		return (pthread_mutex_unlock(mutex), 0);
 	if (philo->timeeating
-		- philo->timestart > (unsigned long long)philo->time_die)
+		- philo->timestart >= (unsigned long long)philo->time_die)
 	{
 		ft_die(philo);
 		return (pthread_mutex_unlock(mutex), 0);

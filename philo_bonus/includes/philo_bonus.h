@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:59:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/13 16:57:38 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/21 07:01:53 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ t_philo						*ft_clear_philos(t_philo *philos);
 int							ft_check_if_die(t_philo *philos);
 
 // Process
-int							ft_thread(t_philo *data);
+int							ft_process(t_philo *data);
 int							ft_creating_process(t_philo *philo, pid_t *pid,
 								pthread_t *threads);
 int							ft_thinking(t_philo *philo);
