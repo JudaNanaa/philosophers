@@ -51,6 +51,7 @@ void	ft_destroy_mutex(t_mutex *mutex, t_philo *philo)
 		philo = philo->next;
 	}
 	free(tmp->first->mutexfork);
+	free(tmp->first->mutex_nb_eat);
 	pthread_mutex_destroy(mutex->mutexprintf);
 	pthread_mutex_destroy(mutex->mutexdie);
 	free(mutex->mutexprintf);

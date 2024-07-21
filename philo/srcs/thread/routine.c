@@ -52,6 +52,7 @@ void	ft_main_thread(t_philo *philo)
 		}
 		if (ft_check_if_all_finish_eat(philo) == 1)
 			return ;
+		usleep(10);
 		philo = philo->before;
 	}
 }
