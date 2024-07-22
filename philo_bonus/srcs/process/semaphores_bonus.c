@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 05:20:51 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/22 09:53:44 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/22 22:20:45 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,35 @@
 
 int	ft_semaphore_to_philo(t_sema *semaphore, t_philo *philo)
 {
+	unsigned long long int	time;
+
 	sem_post(semaphore->sem_taking_fork);
+	time = ft_time(philo, 1);
+	if (time == 0)
+		return (-1);
 	while (philo)
 	{
 		philo->sem_fork = semaphore->sem_fork;
 		philo->sem_printf = semaphore->sem_print;
 		philo->sem_taking_fork = semaphore->sem_taking_fork;
+		philo->timestamp = time;
 		philo = philo->next;
 	}
+	return (0);
+}
+
+int ft_init_semaphores2(t_philo *philo)
+{
+	char *nb;
+
+	nb = ft_itoa(philo->id);
+	if (!nb)
+		return (-1);
+	sem_unlink((const char *)nb);
+	philo->sem_last_eat = sem_open((const char *)nb, O_CREAT, 0600, 1);
+	free(nb);
+	if (philo->sem_last_eat == SEM_FAILED)
+		return (printf("Error open semaphore last_eat\n"), -1);
 	return (0);
 }
 
@@ -32,7 +53,7 @@ int	ft_init_semaphores(t_sema *semaphores)
 	if (semaphores->sem_fork == SEM_FAILED)
 		return (printf("Error open semaphore fork\n"), -1);
 	sem_unlink("print");
-	semaphores->sem_print = sem_open("print", O_CREAT, 0600, 0);
+	semaphores->sem_print = sem_open("print", O_CREAT, 0600, 1);
 	if (semaphores->sem_print == SEM_FAILED)
 	{
 		sem_close(semaphores->sem_fork);
@@ -46,7 +67,6 @@ int	ft_init_semaphores(t_sema *semaphores)
 		sem_close(semaphores->sem_print);
 		return (printf("Error open semaphore taking fork\n"), -1);
 	}
-	sem_post(semaphores->sem_print);
 	return (0);
 }
 

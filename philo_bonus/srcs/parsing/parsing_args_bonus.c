@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_args_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 12:16:09 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/10 05:31:35 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/22 20:47:57 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_verify_if_good(t_philo *data, char **argv)
 		(printf("%ld not good for nb of philo\n", data->nb_philo), cpt++);
 	data->time_die = ft_atol(argv[2]);
 	if (data->time_die < 0)
-		(printf("%ld not good for time to die\n", data->time_die), cpt++);
+		(printf("%lld not good for time to die\n", data->time_die), cpt++);
 	data->time_eat = ft_atol(argv[3]);
 	if (data->time_eat < 0)
 		(printf("%ld not good for time to eat\n", data->time_eat), cpt++);
@@ -72,6 +72,5 @@ int	ft_parse_args(int argc, char **argv, t_philo *data)
 	}
 	else
 		data->nb_eat = -1;
-	data->nb_eat_args = argv[5];
 	return (1);
 }

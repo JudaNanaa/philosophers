@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checker.c                                          :+:      :+:    :+:   */
+/*   checker_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 06:02:48 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/18 19:40:58 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/22 21:33:54 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ void	*ft_routine_threads(void *args)
 		time_death = ft_time(checker->philo, 2);
 		if (time_death == 0)
 			return (sem_post(checker->philo->sem_printf), NULL);
-		printf("%lld %d died\n", time_death / 1000, status);
+		printf("%lld %d died\n",
+			(time_death - checker->philo->timestamp) / 1000, status);
 		ft_kill(checker);
 		sem_post(checker->philo->sem_printf);
 	}

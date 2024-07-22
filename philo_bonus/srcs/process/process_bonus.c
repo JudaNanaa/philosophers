@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 00:36:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/21 22:13:34 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/22 21:23:26 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@ int	ft_fork_create(pid_t *pid, t_philo *philo, int i, pthread_t *threads)
 	{
 		free(&*pid - i);
 		free(threads);
-		ft_routine(philo);
+ 		ft_routine(philo);
 		id = philo->id;
 		die = philo->die;
+		sem_close(philo->sem_last_eat);
 		ft_semaphore_close(philo);
 		ft_clear_philos(philo->first);
 		if (die == 0)

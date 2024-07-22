@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_struct_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 08:12:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/10 05:31:32 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/22 15:45:49 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_philo	*ft_lstnew(int id, t_philo *philo)
 	new->time_eat = philo->time_eat * 1000;
 	new->time_sleep = philo->time_sleep * 1000;
 	new->nb_eat = philo->nb_eat;
-	new->nb_eat_args = philo->nb_eat_args;
 	new->nb_philo = philo->nb_philo;
 	new->before = NULL;
 	new->next = NULL;
@@ -88,16 +87,3 @@ t_philo	*ft_init_struct(t_philo *philo)
 	return (philos);
 }
 
-int	ft_check_if_die(t_philo *philos)
-{
-	philos = philos->first;
-	while (philos)
-	{
-		if (philos->die == 1)
-		{
-			return (0);
-		}
-		philos = philos->next;
-	}
-	return (1);
-}

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:59:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/22 09:02:58 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/22 20:47:38 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,15 @@
 
 typedef struct s_data
 {
+	
+	pthread_t				*monitor;
 	long					nb_philo;
-	long					time_die;
+	unsigned long long int	time_die;
 	long					time_eat;
 	long					time_sleep;
 	int						id;
 	long					nb_eat;
-	char					*nb_eat_args;
+	char					*nb;
 	int						thinking;
 	int						finish;
 	int						die;
@@ -47,6 +49,8 @@ typedef struct s_data
 	sem_t					*sem_printf;
 	sem_t					*sem_fork;
 	sem_t					*sem_taking_fork;
+	sem_t					*sem_last_eat;
+	sem_t					*sem_die;
 	struct s_data			*before;
 	struct s_data			*next;
 	struct s_data			*first;
@@ -60,6 +64,7 @@ typedef struct s_sema
 	sem_t					*sem_print;
 	sem_t					*sem_die;
 	sem_t					*sem_taking_fork;
+	sem_t					*sem_last_eat;
 }							t_sema;
 
 typedef struct s_checker
@@ -116,5 +121,12 @@ t_checker					*ft_init_checker(t_philo *philo, pid_t *pid, int i);
 void						ft_kill(t_checker *checker);
 int							ft_create_threads(t_philo *philo,
 								pthread_t *threads, pid_t *pid);
+int	ft_get_or_set_nb_eat(t_philo *philo, int cas);
+int	ft_get_if_die(t_philo *philo);
+void *ft_monitoring(void *args);
+int ft_init_semaphores2(t_philo *philo);
+unsigned long long int	ft_set_last_eat(t_philo *philo);
+
+						
 
 #endif // !FT_PHILO_H

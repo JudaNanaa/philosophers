@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/07/21 21:20:23 by madamou          ###   ########.fr        #
+#    Updated: 2024/07/22 15:23:37 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ PARSING = $(addprefix parsing/, parsing_args_bonus.c parsing_utils_bonus.c \
 				init_struct_bonus.c)
 
 PROCESS = $(addprefix process/, process_bonus.c routine_bonus.c process_utils_bonus.c \
-				routine2_bonus.c semaphores_bonus.c checker.c)
+				routine2_bonus.c semaphores_bonus.c checker_bonus.c \
+				getter_and_setter_bonus.c routine_checker_bonus.c)
 
 UTILS = $(addprefix utils/, utils_bonus.c ft_itoa_bonus.c)
 
