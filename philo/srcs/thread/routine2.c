@@ -14,20 +14,7 @@
 
 int	ft_taking_fork(t_philo *philo, pthread_mutex_t *mutex)
 {
-	if (ft_get_die_status(philo) == 1)
-		return (0);
 	pthread_mutex_lock(mutex);
-	if (ft_get_die_status(philo) == 1)
-		return (pthread_mutex_unlock(mutex), 0);
-	philo->timeeating = ft_time(philo, 2);
-	if (philo->timeeating == 0)
-		return (pthread_mutex_unlock(mutex), 0);
-	if (philo->timeeating
-		- philo->timestart >= (unsigned long long)philo->time_die)
-	{
-		ft_die(philo);
-		return (pthread_mutex_unlock(mutex), 0);
-	}
 	return (ft_printf("%lld %d has taken a fork\n", philo->timeeating, philo));
 }
 
@@ -84,7 +71,7 @@ void	ft_one_philo(t_philo *philo)
 		return ;
 	if (ft_taking_fork(philo, philo->mutexfork) == 0)
 		return ;
-	if (ft_get_die_status(philo) == 1)
+	if (ft_check_if_die(philo) == 1)
 	{
 		pthread_mutex_unlock(philo->mutexfork);
 		return ;
@@ -94,5 +81,5 @@ void	ft_one_philo(t_philo *philo)
 		pthread_mutex_unlock(philo->mutexfork);
 		return ;
 	}
-	ft_die(philo);
+	usleep(100000);
 }

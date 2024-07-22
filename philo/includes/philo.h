@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:59:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/21 06:32:52 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/22 05:11:24 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,12 @@ int							ft_thread(t_philo *data);
 int							ft_eating(t_philo *philo);
 int							ft_sleeping(t_philo *philo);
 int							ft_thinking(t_philo *philo);
-int							ft_die(t_philo *philo);
 int							ft_printf(char *str, unsigned long long int time,
 								t_philo *philo);
-int							ft_get_die_status(t_philo *philo);
+unsigned long long int		ft_get_last_eat(t_philo *philo);
+
+unsigned long long int		ft_set_last_eat(t_philo *philo);
+int							ft_get_if_die(t_philo *philo);
 void						*ft_routine(void *args);
 void						ft_main_thread(t_philo *philo);
 void						ft_all_set_to_dead(t_philo *philo);

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 17:04:57 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/21 06:36:02 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/22 05:17:02 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,33 +19,29 @@
 int	ft_printf(char *str, unsigned long long int time, t_philo *philo)
 {
 	pthread_mutex_lock(philo->mutexprintf);
-	if (ft_get_die_status(philo) == 0)
+	if (ft_get_if_die(philo) == 0)
 	{
 		time = ft_time(philo, 2) / 1000;
 		if (time == 0)
 			return (pthread_mutex_unlock(philo->mutexprintf), 0);
-		printf(str, time, philo->id);
+		printf(str, time - philo->timestart / 1000, philo->id);
 	}
 	pthread_mutex_unlock(philo->mutexprintf);
 	return (1);
 }
 
-int	ft_die(t_philo *philo)
+int	ft_check_if_die(t_philo *philo)
 {
-	pthread_mutex_lock(philo->mutexdie);
-	philo->die = 1;
-	pthread_mutex_unlock(philo->mutexdie);
+	unsigned long long int	last_eat;
+	unsigned long long int	time;
+
+	last_eat = ft_get_last_eat(philo);
+	time = ft_time(philo, 2);
+	if (time == 0)
+		return (-1);
+	if (time - last_eat >= (unsigned long long int)philo->time_die)
+		return (1);
 	return (0);
-}
-
-int	ft_get_die_status(t_philo *philo)
-{
-	int	result;
-
-	pthread_mutex_lock(philo->mutexdie);
-	result = philo->die;
-	pthread_mutex_unlock(philo->mutexdie);
-	return (result);
 }
 
 int	ft_usleep(t_philo *philo, unsigned long long time_sleep)
@@ -59,13 +55,13 @@ int	ft_usleep(t_philo *philo, unsigned long long time_sleep)
 	time = time_start;
 	while (time - time_start < time_sleep)
 	{
-		if (usleep(100) == -1)
+		if (usleep(10) == -1)
 			return (-1);
 		time = ft_time(philo, 2);
 		if (time == 0)
 			return (-1);
-		if (time - philo->timeeating >= (unsigned long long)philo->time_die)
-			return (ft_die(philo), -1);
+		if (ft_get_if_die(philo) == 1)
+			return (-1);
 	}
 	return (1);
 }
@@ -79,9 +75,9 @@ void	ft_all_set_to_dead(t_philo *philo)
 	if (time_death == 0)
 		return ;
 	buff = philo;
-	printf("%lld %d died\n", time_death / 1000, buff->id);
-	pthread_mutex_lock(buff->mutexdie);
+	printf("%lld %d died\n", (time_death - philo->timestart) / 1000, buff->id);
 	philo = philo->first;
+	pthread_mutex_lock(buff->mutexdie);
 	while (philo)
 	{
 		philo->die = 1;

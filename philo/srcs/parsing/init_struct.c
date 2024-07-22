@@ -27,7 +27,9 @@ t_philo	*ft_lstnew(int id, t_philo *philo)
 	new->time_eat = philo->time_eat * 1000;
 	new->time_sleep = philo->time_sleep * 1000;
 	new->nb_eat = philo->nb_eat;
-	new->nb_eat_args = philo->nb_eat_args;
+	new->timestart = ft_time(philo, 2);
+	if (new->timestart == 0)
+		return (free(new), NULL);
 	new->nb_philo = philo->nb_philo;
 	new->before = NULL;
 	new->next = NULL;
@@ -86,18 +88,4 @@ t_philo	*ft_init_struct(t_philo *philo)
 	}
 	philos->first->before = philos->last;
 	return (philos);
-}
-
-int	ft_check_if_die(t_philo *philos)
-{
-	philos = philos->first;
-	while (philos)
-	{
-		if (philos->die == 1)
-		{
-			return (0);
-		}
-		philos = philos->next;
-	}
-	return (1);
 }

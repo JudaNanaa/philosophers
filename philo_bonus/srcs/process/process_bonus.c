@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 00:36:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/21 07:01:38 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/21 22:13:34 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	ft_creating_process(t_philo *philo, pid_t *pid, pthread_t *threads)
 		philo = philo->before;
 	}
 	if (ft_create_threads(philo, threads, pid) == -1)
-		return (0);
+		return (ft_semaphore_close(philo), 0);
 	if (ft_fork_wait(philo, threads) == -1)
 		return (ft_semaphore_close(philo), 0);
 	return (ft_semaphore_close(philo), 1);

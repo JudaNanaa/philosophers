@@ -3,22 +3,23 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+         #
+#    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/07/08 17:21:58 by madamou          ###   ########.fr        #
+#    Updated: 2024/07/22 05:15:30 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 
-C_FLAGS = -Wall -Wextra -Werror -O3 -g3
+C_FLAGS = -Wall -Wextra -Werror -g3
 
 SRCS_DIR = srcs/
 
 PARSING = $(addprefix parsing/, parsing_args.c parsing_utils.c init_struct.c)
 
-THREAD = $(addprefix thread/, threads.c threads_utils.c routine.c routine2.c)
+THREAD = $(addprefix thread/, threads.c threads_utils.c routine.c routine2.c \
+			getter_and_setter.c)
 
 UTILS = $(addprefix utils/, utils.c)
 

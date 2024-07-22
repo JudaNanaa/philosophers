@@ -11,29 +11,25 @@
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
-#include <stdio.h>
 
 void	*ft_routine(void *args)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)args;
-	if (ft_time(philo, 1) == 0)
+	if (ft_time(philo, 1) == 0 || ft_get_last_eat(philo) == 0)
 		return (NULL);
-	philo->timeeating = philo->timestart;
 	if (philo->id % 2 == 0)
 		ft_usleep(philo, 100);
 	while (philo->nb_philo != 1)
 	{
 		if (ft_thinking(philo) == 0)
 			return (NULL);
-		if (ft_eating(philo) == 0)
+		if (philo->nb_eat == 0 || ft_eating(philo) == 0)
 			return (NULL);
 		if (philo->nb_eat == 0)
 			return (NULL);
 		if (ft_sleeping(philo) == 0)
-			return (NULL);
-		if (ft_get_die_status(philo) == 1)
 			return (NULL);
 	}
 	ft_one_philo(philo);
@@ -44,7 +40,7 @@ void	ft_main_thread(t_philo *philo)
 {
 	while (philo)
 	{
-		if (ft_get_die_status(philo) == 1)
+		if (ft_check_if_die(philo) == 1)
 		{
 			pthread_mutex_lock(philo->mutexprintf);
 			ft_all_set_to_dead(philo);
@@ -59,8 +55,6 @@ void	ft_main_thread(t_philo *philo)
 
 int	ft_thinking(t_philo *philo)
 {
-	if (ft_get_die_status(philo) == 1)
-		return (0);
 	if (ft_printf("%lld %d is thinking\n", philo->timethinking, philo) == 0)
 		return (0);
 	philo->timethinking = ft_time(philo, 2);
@@ -85,12 +79,9 @@ int	ft_eating(t_philo *philo)
 		if (ft_taking_fork(philo, philo->before->mutexfork) == 0)
 			return (pthread_mutex_unlock(philo->mutexfork), 0);
 	}
-	if (ft_get_die_status(philo) == 1)
-		return (ft_drop_fork(philo), 0);
 	if (ft_printf("%lld %d is eating\n", 0, philo) == 0)
 		return (ft_drop_fork(philo), 0);
-	philo->timeeating = ft_time(philo, 1);
-	if (philo->timeeating == 0)
+	if (ft_set_last_eat(philo) == 0)
 		return (ft_drop_fork(philo), 0);
 	if (ft_usleep(philo, philo->time_eat) == -1)
 		return (ft_drop_fork(philo), 0);
@@ -100,8 +91,6 @@ int	ft_eating(t_philo *philo)
 
 int	ft_sleeping(t_philo *philo)
 {
-	if (ft_get_die_status(philo) == 1)
-		return (0);
 	if (ft_printf("%lld %d is sleeping\n", philo->timesleeping, philo) == 0)
 		return (0);
 	philo->timesleeping = ft_time(philo, 2);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine2_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 22:42:13 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/10 05:32:23 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/21 21:45:59 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_taking_fork(t_philo *philo)
 	if (philo->timeeating == 0)
 		return (sem_post(philo->sem_fork), 0);
 	if (philo->timeeating
-		- philo->timestart > (unsigned long long)philo->time_die)
+		- philo->timestart >= (unsigned long long)philo->time_die)
 	{
 		ft_die(philo);
 		return (sem_post(philo->sem_fork), 0);

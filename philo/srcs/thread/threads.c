@@ -99,6 +99,8 @@ int	ft_creating_threads(t_philo *philo, pthread_t *threads)
 		return (0);
 	while (++i <= nb_philo - 1)
 	{
+		if (ft_set_last_eat(philo) == 0)
+			return (0);
 		if (pthread_create(&threads[i], NULL, &ft_routine, philo) != 0)
 			return (printf("Error creating threads %d\n", i), 0);
 		philo = philo->before;

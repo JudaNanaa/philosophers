@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:59:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/21 07:01:53 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/22 09:02:58 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_data
 	unsigned long long int	timestamp;
 	sem_t					*sem_printf;
 	sem_t					*sem_fork;
+	sem_t					*sem_taking_fork;
 	struct s_data			*before;
 	struct s_data			*next;
 	struct s_data			*first;
@@ -58,6 +59,7 @@ typedef struct s_sema
 	sem_t					*sem_fork;
 	sem_t					*sem_print;
 	sem_t					*sem_die;
+	sem_t					*sem_taking_fork;
 }							t_sema;
 
 typedef struct s_checker

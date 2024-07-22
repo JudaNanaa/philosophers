@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 08:10:23 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/09 02:19:19 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/22 05:17:24 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
+#include <bits/types/struct_timeval.h>
 
 long	ft_atol(char *str)
 {
@@ -40,14 +41,11 @@ long	ft_atol(char *str)
 
 unsigned long long int	ft_time(t_philo *philo, int cas)
 {
-	unsigned long long int	nb;
+	struct timeval	time;
 
-	if (gettimeofday(&philo->curent_time, NULL) == -1)
+	if (gettimeofday(&time, NULL) == -1)
 		return (0);
-	nb = ((philo->curent_time.tv_sec * 1000000) + philo->curent_time.tv_usec);
 	if (cas == 1)
-		philo->timestart = nb;
-	if (cas == 3)
-		return (nb);
-	return (nb);
+		philo->timestart = ((time.tv_sec * 1000000) + time.tv_usec);
+	return (((time.tv_sec * 1000000) + time.tv_usec));
 }

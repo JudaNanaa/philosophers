@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:17:33 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/21 06:59:06 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/22 09:13:04 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	ft_routine(t_philo *philo)
 	sem_post(philo->sem_fork);
 	if (ft_time(philo, 1) == 0)
 		return ;
+	philo->timeeating = philo->timestart;
 	while (philo->nb_philo != 1)
 	{
 		if (ft_thinking(philo) == 0)
@@ -47,10 +48,12 @@ int	ft_thinking(t_philo *philo)
 
 int	ft_eating(t_philo *philo)
 {
+	sem_wait(philo->sem_taking_fork);
 	if (ft_taking_fork(philo) == 0)
 		return (0);
 	if (ft_taking_fork(philo) == 0)
 		return (sem_post(philo->sem_fork), 0);
+	sem_post(philo->sem_taking_fork);
 	philo->timeeating = ft_time(philo, 1);
 	if (philo->timeeating == 0)
 		return (ft_drop_fork(philo), 0);
