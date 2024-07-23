@@ -5,28 +5,17 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/22 14:48:44 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/23 13:59:39 by madamou          ###   ########.fr       */
+/*   Created: 2024/07/23 15:05:15 by madamou           #+#    #+#             */
+/*   Updated: 2024/07/23 15:41:13 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo_bonus.h"
 
-int	ft_check_if_finish_eat(t_philo *philo)
-{
-	philo = philo->first;
-	while (philo)
-	{
-		if (ft_get_or_set_nb_eat(philo, 2) != 0)
-			return (0);
-		philo = philo->next;
-	}
-	return (1);
-}
-
 void *ft_monitoring(void *args)
 {
 	t_philo *philo;
+	long long int time;
 
 	philo = (t_philo *)args;
 	if (philo == NULL)
@@ -35,9 +24,14 @@ void *ft_monitoring(void *args)
 	{
 		if (ft_check_if_die(philo) == 1)
 		{
-			philo->die = 1;
-			ft_semaphore_close(philo);
-			(sem_close(philo->sem_last_eat), exit(philo->id));
+			time = ft_time(philo, 2);
+			sem_wait(philo->sem_printf);
+			if (time == 0)
+				return (sem_post(philo->sem_printf), NULL);
+			printf("%lld %d died\n",
+				(time - philo->timestamp) / 1000, philo->id);
+			sem_post(philo->sem_die);
+			return (NULL);
 		}
 		usleep(10);
 	}
