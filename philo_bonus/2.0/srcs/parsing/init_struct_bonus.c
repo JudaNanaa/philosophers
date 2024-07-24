@@ -86,4 +86,3 @@ t_philo	*ft_init_struct(t_philo *philo)
 	philos->first->before = philos->last;
 	return (philos);
 }
-

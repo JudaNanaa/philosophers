@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:59:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/23 16:03:09 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/24 01:36:15 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,9 @@
 
 typedef struct s_data
 {
-	
 	pthread_t				monitor;
 	long					nb_philo;
-	unsigned long long int	time_die;
+	long long int			time_die;
 	long					time_eat;
 	long					time_sleep;
 	int						id;
@@ -83,7 +82,6 @@ int							ft_usleep(t_philo *philo,
 int							ft_printf(char *str, t_philo *philo);
 char						*ft_itoa(int n);
 
-
 // Struct
 t_philo						*ft_init_struct(t_philo *philo);
 t_philo						*ft_clear_philos(t_philo *philos);
@@ -103,17 +101,16 @@ int							ft_semaphore_to_philo(t_sema *semaphore,
 								t_philo *philo);
 void						ft_semaphore_close(t_philo *philo);
 void						ft_kill(pid_t *pid, int nb_philo);
-int	ft_get_if_die(t_philo *philo);
-void *ft_monitoring(void *args);
+int							ft_get_if_die(t_philo *philo);
+void						*ft_monitoring(void *args);
 
-unsigned long long int	ft_set_last_eat(t_philo *philo);
-
+unsigned long long int		ft_set_last_eat(t_philo *philo);
 
 // Semaphores
-int							ft_init_semaphores(t_sema *semaphores, t_philo *philo);
-						
-// Getter and Setter
-void	ft_set_nb_eat(t_philo *philo);
+int							ft_init_semaphores(t_sema *semaphores,
+								t_philo *philo);
 
+// Getter and Setter
+void						ft_set_nb_eat(t_philo *philo);
 
 #endif // !FT_PHILO_H

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 13:40:51 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/23 17:08:24 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/24 02:48:16 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_fork_create(pid_t *pid, t_philo *philo, int i)
 	if (*pid == 0)
 	{
 		free(&*pid - i);
- 		ft_routine(philo);
+		ft_routine(philo);
 		exit(EXIT_FAILURE);
 	}
 	return (0);
@@ -39,58 +39,51 @@ void	ft_kill(pid_t *pid, int nb_philo)
 	}
 }
 
-int ft_creating_checkers(t_sema *sem, int nb_philo, pid_t *pid, t_philo *philo)
+int	ft_creating_checkers(t_sema *sem, int nb_philo, pid_t *pid, t_philo *philo)
 {
-	pid_t pid_finish;
-	pid_t die;
-	int nb_finish;
+	pid_t	pid_finish;
+	pid_t	die;
 
-	nb_finish = 0;
 	die = fork();
 	if (die == -1)
 		return (-1);
 	if (die == 0)
 	{
-		sem_wait(sem->sem_die);
-		(ft_kill(pid, nb_philo), free(pid));
-		sem_post(sem->sem_print);
-		(ft_semaphore_close(philo), ft_clear_philos(philo));
-		exit(EXIT_SUCCESS);
+		(sem_wait(sem->sem_die), ft_kill(pid, philo->nb_philo), free(pid));
+		(sem_post(sem->sem_print), ft_semaphore_close(philo));
+		(ft_clear_philos(philo), exit(EXIT_SUCCESS));
 	}
 	pid_finish = fork();
 	if (pid_finish == -1)
 		return (-1);
 	if (pid_finish == 0)
 	{
-		while (nb_finish++ < nb_philo)
+		while (nb_philo--)
 			sem_wait(sem->sem_finish);
-		(ft_kill(pid, nb_philo), free(pid));
-		sem_post(sem->sem_die);
-		(ft_semaphore_close(philo), ft_clear_philos(philo));
-		exit(EXIT_SUCCESS);
+		(ft_kill(pid, philo->nb_philo), free(pid), sem_post(sem->sem_die));
+		(ft_semaphore_close(philo), ft_clear_philos(philo), exit(0));
 	}
 	if (waitpid(die, NULL, 0) == -1)
 		return (-1);
-	kill(pid_finish, SIGKILL);
-	return (0);
+	return (kill(pid_finish, SIGKILL), 0);
 }
 
 int	ft_creating_process(t_philo *philo, pid_t *pid)
 {
-	int		i;
-	int		nb_philo;
-	t_sema	semaphores;
+	int						i;
+	int						nb_philo;
+	t_sema					semaphores;
 	unsigned long long int	time;
 
 	i = -1;
 	nb_philo = philo->nb_philo;
 	if (ft_init_semaphores(&semaphores, philo) == -1)
 		return (0);
+	if (ft_semaphore_to_philo(&semaphores, philo) == -1)
+		return (0);
 	time = ft_time(philo, 2);
 	if (time == 0)
 		return (-1);
-	if (ft_semaphore_to_philo(&semaphores, philo) == -1)
-		return (0);
 	while (++i <= nb_philo - 1)
 	{
 		philo->timestamp = time;
@@ -105,7 +98,7 @@ int	ft_creating_process(t_philo *philo, pid_t *pid)
 
 int	ft_process(t_philo *philo)
 {
-	pid_t		*pid;
+	pid_t	*pid;
 
 	pid = malloc(sizeof(pid_t) * philo->nb_philo);
 	if (!pid)

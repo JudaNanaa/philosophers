@@ -27,15 +27,15 @@ int	ft_semaphore_to_philo(t_sema *semaphore, t_philo *philo)
 	return (0);
 }
 
-int ft_init_semaphores2(t_sema *semaphores)
+int	ft_init_semaphores2(t_sema *semaphores)
 {
 	sem_unlink("last_meal");
 	semaphores->sem_last_eat = sem_open("last_meal", O_CREAT, 0600, 1);
 	if (semaphores->sem_last_eat == SEM_FAILED)
 	{
 		sem_close(semaphores->sem_fork);
-		sem_close(semaphores->sem_print);		
-		sem_close(semaphores->sem_taking_fork);		
+		sem_close(semaphores->sem_print);
+		sem_close(semaphores->sem_taking_fork);
 		return (printf("Error open semaphore last_eat\n"), -1);
 	}
 	sem_unlink("finish");
@@ -43,9 +43,9 @@ int ft_init_semaphores2(t_sema *semaphores)
 	if (semaphores->sem_finish == SEM_FAILED)
 	{
 		sem_close(semaphores->sem_fork);
-		sem_close(semaphores->sem_print);		
-		sem_close(semaphores->sem_taking_fork);		
-		sem_close(semaphores->sem_last_eat);		
+		sem_close(semaphores->sem_print);
+		sem_close(semaphores->sem_taking_fork);
+		sem_close(semaphores->sem_last_eat);
 		return (printf("Error open semaphore finish eat\n"), -1);
 	}
 	sem_unlink("die");

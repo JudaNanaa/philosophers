@@ -41,7 +41,7 @@ long	ft_atol(char *str)
 unsigned long long int	ft_time(t_philo *philo, int cas)
 {
 	unsigned long long int	nb;
-	struct timeval time;	
+	struct timeval			time;
 
 	if (gettimeofday(&time, NULL) == -1)
 		return (0);

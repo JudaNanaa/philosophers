@@ -12,10 +12,10 @@
 
 #include "../../includes/philo_bonus.h"
 
-void *ft_monitoring(void *args)
+void	*ft_monitoring(void *args)
 {
-	t_philo *philo;
-	long long int time;
+	t_philo			*philo;
+	long long int	time;
 
 	philo = (t_philo *)args;
 	if (philo == NULL)
@@ -28,8 +28,8 @@ void *ft_monitoring(void *args)
 			sem_wait(philo->sem_printf);
 			if (time == 0)
 				return (sem_post(philo->sem_printf), NULL);
-			printf("%lld %d died\n",
-				(time - philo->timestamp) / 1000, philo->id);
+			printf("%lld %d died\n", (time - philo->timestamp) / 1000,
+				philo->id);
 			sem_post(philo->sem_die);
 			return (NULL);
 		}

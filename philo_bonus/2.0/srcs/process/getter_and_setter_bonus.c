@@ -55,8 +55,8 @@ int	ft_check_if_die(t_philo *philo)
 {
 	unsigned long long int	time;
 	unsigned long long int	die;
-	unsigned long long int last_eat;
-	
+	unsigned long long int	last_eat;
+
 	time = 0;
 	die = 0;
 	last_eat = ft_get_last_eat(philo);
