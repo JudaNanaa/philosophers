@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 22:42:13 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/22 20:58:34 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/23 14:18:54 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_taking_fork(t_philo *philo)
 {
 	sem_wait(philo->sem_fork);
-	return (ft_printf("%lld %d has taken a fork\n", 0, philo));
+	return (ft_printf("%lld %d has taken a fork\n", philo));
 }
 
 void	ft_drop_fork(t_philo *philo)

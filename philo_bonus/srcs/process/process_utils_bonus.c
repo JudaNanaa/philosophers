@@ -6,25 +6,23 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 01:48:26 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/22 21:28:59 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/24 18:29:13 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo_bonus.h"
 
-int	ft_printf(char *str, unsigned long long int time, t_philo *philo)
+int	ft_printf(char *str, t_philo *philo)
 {
-	if (ft_get_if_die(philo) == 0)
-	{
-		time = ft_time(philo, 2) / 1000;
-		if (time == 0)
-			return (0);
-		sem_wait(philo->sem_printf);
-		printf(str, time - philo->timestamp / 1000, philo->id);
-		sem_post(philo->sem_printf);
-		return (1);
-	}
-	return (0);
+	unsigned long long int	time;
+
+	sem_wait(philo->sem_printf);
+	time = ft_time(philo, 2);
+	if (time == 0)
+		return (0);
+	printf(str, (time - philo->timestamp) / 1000, philo->id);
+	sem_post(philo->sem_printf);
+	return (1);
 }
 
 int	ft_usleep(t_philo *philo, unsigned long long time_sleep)

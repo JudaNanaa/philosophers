@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 08:10:23 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/22 18:13:36 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/23 17:08:37 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ long	ft_atol(char *str)
 unsigned long long int	ft_time(t_philo *philo, int cas)
 {
 	unsigned long long int	nb;
-	struct timeval time;	
+	struct timeval			time;
 
 	if (gettimeofday(&time, NULL) == -1)
 		return (0);
 	nb = ((time.tv_sec * 1000000) + time.tv_usec);
 	if (cas == 1)
-		philo->timestart = nb;
+		philo->timestamp = nb;
 	if (cas == 3)
 		return (nb);
 	return (nb);

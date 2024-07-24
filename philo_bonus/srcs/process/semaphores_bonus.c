@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 05:20:51 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/22 22:20:45 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/23 16:35:39 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,42 +14,49 @@
 
 int	ft_semaphore_to_philo(t_sema *semaphore, t_philo *philo)
 {
-	unsigned long long int	time;
-
-	sem_post(semaphore->sem_taking_fork);
-	time = ft_time(philo, 1);
-	if (time == 0)
-		return (-1);
 	while (philo)
 	{
 		philo->sem_fork = semaphore->sem_fork;
 		philo->sem_printf = semaphore->sem_print;
 		philo->sem_taking_fork = semaphore->sem_taking_fork;
-		philo->timestamp = time;
+		philo->sem_last_eat = semaphore->sem_last_eat;
+		philo->sem_finish = semaphore->sem_finish;
+		philo->sem_die = semaphore->sem_die;
 		philo = philo->next;
 	}
 	return (0);
 }
 
-int ft_init_semaphores2(t_philo *philo)
+int	ft_init_semaphores2(t_sema *semaphores)
 {
-	char *nb;
-
-	nb = ft_itoa(philo->id);
-	if (!nb)
-		return (-1);
-	sem_unlink((const char *)nb);
-	philo->sem_last_eat = sem_open((const char *)nb, O_CREAT, 0600, 1);
-	free(nb);
-	if (philo->sem_last_eat == SEM_FAILED)
+	sem_unlink("last_meal");
+	semaphores->sem_last_eat = sem_open("last_meal", O_CREAT, 0600, 1);
+	if (semaphores->sem_last_eat == SEM_FAILED)
+	{
+		sem_close(semaphores->sem_fork);
+		sem_close(semaphores->sem_print);
+		sem_close(semaphores->sem_taking_fork);
 		return (printf("Error open semaphore last_eat\n"), -1);
+	}
+	sem_unlink("finish");
+	semaphores->sem_finish = sem_open("finish", O_CREAT, 0600, 0);
+	if (semaphores->sem_finish == SEM_FAILED)
+	{
+		sem_close(semaphores->sem_fork);
+		sem_close(semaphores->sem_print);
+		sem_close(semaphores->sem_taking_fork);
+		sem_close(semaphores->sem_last_eat);
+		return (printf("Error open semaphore finish eat\n"), -1);
+	}
+	sem_unlink("die");
+	semaphores->sem_die = sem_open("die", O_CREAT, 0600, 0);
 	return (0);
 }
 
-int	ft_init_semaphores(t_sema *semaphores)
+int	ft_init_semaphores(t_sema *semaphores, t_philo *philo)
 {
 	sem_unlink("fork");
-	semaphores->sem_fork = sem_open("fork", O_CREAT, 0600, 0);
+	semaphores->sem_fork = sem_open("fork", O_CREAT, 0600, philo->nb_philo);
 	if (semaphores->sem_fork == SEM_FAILED)
 		return (printf("Error open semaphore fork\n"), -1);
 	sem_unlink("print");
@@ -60,14 +67,14 @@ int	ft_init_semaphores(t_sema *semaphores)
 		return (printf("Error open semaphore print\n"), -1);
 	}
 	sem_unlink("taking");
-	semaphores->sem_taking_fork = sem_open("taking", O_CREAT, 0600, 0);
+	semaphores->sem_taking_fork = sem_open("taking", O_CREAT, 0600, 1);
 	if (semaphores->sem_taking_fork == SEM_FAILED)
 	{
 		sem_close(semaphores->sem_fork);
 		sem_close(semaphores->sem_print);
 		return (printf("Error open semaphore taking fork\n"), -1);
 	}
-	return (0);
+	return (ft_init_semaphores2(semaphores));
 }
 
 void	ft_semaphore_close(t_philo *philo)
@@ -78,4 +85,10 @@ void	ft_semaphore_close(t_philo *philo)
 		printf("Error when close semaphore printf\n");
 	if (sem_close(philo->sem_taking_fork) == -1)
 		printf("Error when close semaphore taking fork\n");
+	if (sem_close(philo->sem_last_eat) == -1)
+		printf("Error when close semaphore last eat\n");
+	if (sem_close(philo->sem_finish) == -1)
+		printf("Error when close semaphore finish\n");
+	if (sem_close(philo->sem_die) == -1)
+		printf("Error when close semaphore die\n");
 }

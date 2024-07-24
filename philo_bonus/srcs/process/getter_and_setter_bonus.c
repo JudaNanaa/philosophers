@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 14:53:32 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/23 14:27:16 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/23 17:18:05 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,15 @@ int	ft_check_if_die(t_philo *philo)
 {
 	unsigned long long int	time;
 	unsigned long long int	die;
-	
+	unsigned long long int	last_eat;
+
+	time = 0;
+	die = 0;
+	last_eat = ft_get_last_eat(philo);
 	time = ft_time(philo, 2);
 	if (time == 0)
 		return (-1);
-	time = time - ft_get_last_eat(philo);
+	time = time - last_eat;
 	die = philo->time_die;
 	if (time >= die)
 		return (1);
