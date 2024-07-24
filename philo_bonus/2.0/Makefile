@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/07/23 15:12:07 by madamou          ###   ########.fr        #
+#    Updated: 2024/07/24 02:59:57 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ PROCESS = $(addprefix process/, process_bonus.c routine_bonus.c process_utils_bo
 				routine2_bonus.c semaphores_bonus.c getter_and_setter_bonus.c \
 				routine_checker_bonus.c)
 
-UTILS = $(addprefix utils/, utils_bonus.c ft_itoa_bonus.c)
+UTILS = $(addprefix utils/, utils_bonus.c)
 
 OBJS_DIR = .objets/
 
