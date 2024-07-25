@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:17:33 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/24 02:30:38 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/25 19:16:40 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ int	ft_pthread_create_for_routine(t_philo *philo)
 
 void	ft_routine(t_philo *philo)
 {
-	if (ft_set_last_eat(philo) == 0)
-		return ;
 	if (ft_pthread_create_for_routine(philo) == -1)
 		return ;
 	while (philo->nb_philo != 1)

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:17:33 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/21 06:56:31 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/25 19:03:14 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ void	*ft_routine(void *args)
 	t_philo	*philo;
 
 	philo = (t_philo *)args;
-	if (ft_time(philo, 1) == 0 || ft_get_last_eat(philo) == 0)
-		return (NULL);
 	if (philo->id % 2 == 0)
 		ft_usleep(philo, 100);
 	while (philo->nb_philo != 1)
@@ -55,12 +53,7 @@ void	ft_main_thread(t_philo *philo)
 
 int	ft_thinking(t_philo *philo)
 {
-	if (ft_printf("%lld %d is thinking\n", philo->timethinking, philo) == 0)
-		return (0);
-	philo->timethinking = ft_time(philo, 2);
-	if (philo->timethinking == 0)
-		return (0);
-	return (1);
+	return (ft_printf("%lld %d is thinking\n", philo));
 }
 
 int	ft_eating(t_philo *philo)
@@ -79,7 +72,7 @@ int	ft_eating(t_philo *philo)
 		if (ft_taking_fork(philo, philo->before->mutexfork) == 0)
 			return (pthread_mutex_unlock(philo->mutexfork), 0);
 	}
-	if (ft_printf("%lld %d is eating\n", 0, philo) == 0)
+	if (ft_printf("%lld %d is eating\n", philo) == 0)
 		return (ft_drop_fork(philo), 0);
 	if (ft_set_last_eat(philo) == 0)
 		return (ft_drop_fork(philo), 0);
@@ -91,10 +84,7 @@ int	ft_eating(t_philo *philo)
 
 int	ft_sleeping(t_philo *philo)
 {
-	if (ft_printf("%lld %d is sleeping\n", philo->timesleeping, philo) == 0)
-		return (0);
-	philo->timesleeping = ft_time(philo, 2);
-	if (philo->timesleeping == 0)
+	if (ft_printf("%lld %d is sleeping\n", philo) == 0)
 		return (0);
 	if (ft_usleep(philo, philo->time_sleep) == -1)
 		return (0);

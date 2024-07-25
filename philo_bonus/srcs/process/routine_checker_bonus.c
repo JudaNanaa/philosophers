@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 15:05:15 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/24 18:27:01 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/25 19:10:12 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	*ft_monitoring(void *args)
 			if (time == 0)
 				return (sem_post(philo->sem_printf), NULL);
 			usleep(1000);
-			printf("%lld %d died\n", (time - philo->timestamp) / 1000,
+			printf("%lld %d died\n", (time - philo->timestart) / 1000,
 				philo->id);
 			sem_post(philo->sem_die);
 			return (NULL);

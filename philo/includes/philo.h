@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:59:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/22 05:11:24 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/25 18:56:04 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,9 @@ typedef struct s_data
 	long					time_sleep;
 	int						id;
 	long					nb_eat;
-	char					*nb_eat_args;
-	int						thinking;
-	int						finish;
 	int						die;
-	unsigned long long int	timesleeping;
 	unsigned long long int	timestart;
-	unsigned long long int	timefork;
 	unsigned long long int	timeeating;
-	unsigned long long int	timethinking;
-	unsigned long long int	timestamp;
 	pthread_mutex_t			*mutexprintf;
 	pthread_mutex_t			*mutexfork;
 	pthread_mutex_t			*mutexdie;
@@ -47,7 +40,6 @@ typedef struct s_data
 	struct s_data			*next;
 	struct s_data			*first;
 	struct s_data			*last;
-	struct timeval			curent_time;
 }							t_philo;
 
 typedef struct s_mutex
@@ -66,6 +58,9 @@ int							ft_parse_args(int argc, char **argv, t_philo *data);
 unsigned long long int		ft_time(t_philo *philo, int cas);
 long						ft_atol(char *str);
 int							ft_check_if_number(char **argv, int index);
+int							ft_printf(char *str, t_philo *philo);
+int							ft_usleep(t_philo *philo,
+								unsigned long long time_sleep);
 
 // Struct
 t_philo						*ft_init_struct(t_philo *philo);
@@ -79,23 +74,22 @@ int							ft_thread(t_philo *data);
 int							ft_eating(t_philo *philo);
 int							ft_sleeping(t_philo *philo);
 int							ft_thinking(t_philo *philo);
-int							ft_printf(char *str, unsigned long long int time,
-								t_philo *philo);
-unsigned long long int		ft_get_last_eat(t_philo *philo);
-
-unsigned long long int		ft_set_last_eat(t_philo *philo);
-int							ft_get_if_die(t_philo *philo);
 void						*ft_routine(void *args);
-void						ft_main_thread(t_philo *philo);
-void						ft_all_set_to_dead(t_philo *philo);
 int							ft_taking_fork(t_philo *philo,
 								pthread_mutex_t *mutex);
 void						ft_drop_fork(t_philo *philo);
-int							ft_usleep(t_philo *philo,
-								unsigned long long time_sleep);
-int							ft_get_or_set_nb_eat(t_philo *philo, int cas);
-int							ft_check_if_all_finish_eat(t_philo *philo);
 void						ft_one_philo(t_philo *philo);
+
+// Checker
+int							ft_get_or_set_nb_eat(t_philo *philo, int cas);
+unsigned long long int		ft_get_last_eat(t_philo *philo);
+void						ft_main_thread(t_philo *philo);
+int							ft_check_if_all_finish_eat(t_philo *philo);
+void						ft_all_set_to_dead(t_philo *philo);
+
+// getter and setter
+unsigned long long int		ft_set_last_eat(t_philo *philo);
+int							ft_get_if_die(t_philo *philo);
 
 // Mutex
 int							ft_mutex_to_philo(t_mutex *mutex, t_philo *philo);

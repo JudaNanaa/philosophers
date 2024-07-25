@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 08:10:23 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/23 17:08:37 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/25 19:10:32 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ unsigned long long int	ft_time(t_philo *philo, int cas)
 		return (0);
 	nb = ((time.tv_sec * 1000000) + time.tv_usec);
 	if (cas == 1)
-		philo->timestamp = nb;
-	if (cas == 3)
-		return (nb);
+		philo->timestart = nb;
 	return (nb);
 }

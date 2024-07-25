@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 00:36:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/21 06:55:56 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/25 19:00:51 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	ft_mutex_to_philo(t_mutex *mutex, t_philo *philo)
 	if (!mutexfork)
 		return (0);
 	mutex_nb_eat = malloc(sizeof(pthread_mutex_t) * philo->nb_philo);
-	if (!mutex_nb_eat)
+	if (!mutex_nb_eat || ft_time(philo, 1) == 0)
 		return (free(mutex_nb_eat), 0);
 	while (philo)
 	{
@@ -81,10 +81,10 @@ int	ft_mutex_to_philo(t_mutex *mutex, t_philo *philo)
 		philo->mutex_nb_eat = &mutex_nb_eat[i];
 		philo->mutexfork = &mutexfork[i++];
 		philo->mutexdie = mutex->mutexdie;
+		philo->timestart = philo->first->timestart;
 		philo = philo->next;
 	}
-	philo = buff;
-	return (1);
+	return (philo = buff, 1);
 }
 
 int	ft_creating_threads(t_philo *philo, pthread_t *threads)
@@ -99,8 +99,7 @@ int	ft_creating_threads(t_philo *philo, pthread_t *threads)
 		return (0);
 	while (++i <= nb_philo - 1)
 	{
-		if (ft_set_last_eat(philo) == 0)
-			return (0);
+		philo->timeeating = philo->timestart;
 		if (pthread_create(&threads[i], NULL, &ft_routine, philo) != 0)
 			return (printf("Error creating threads %d\n", i), 0);
 		philo = philo->before;

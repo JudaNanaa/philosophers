@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 01:48:26 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/24 18:29:13 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/25 19:10:01 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_printf(char *str, t_philo *philo)
 	time = ft_time(philo, 2);
 	if (time == 0)
 		return (0);
-	printf(str, (time - philo->timestamp) / 1000, philo->id);
+	printf(str, (time - philo->timestart) / 1000, philo->id);
 	sem_post(philo->sem_printf);
 	return (1);
 }

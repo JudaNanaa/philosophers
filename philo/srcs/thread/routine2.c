@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 22:42:13 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/21 06:47:32 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/25 19:05:48 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_taking_fork(t_philo *philo, pthread_mutex_t *mutex)
 {
 	pthread_mutex_lock(mutex);
-	return (ft_printf("%lld %d has taken a fork\n", philo->timeeating, philo));
+	return (ft_printf("%lld %d has taken a fork\n", philo));
 }
 
 void	ft_drop_fork(t_philo *philo)
@@ -81,5 +81,6 @@ void	ft_one_philo(t_philo *philo)
 		pthread_mutex_unlock(philo->mutexfork);
 		return ;
 	}
+	pthread_mutex_unlock(philo->mutexfork);
 	usleep(100000);
 }

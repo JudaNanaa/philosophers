@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:59:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/24 01:36:15 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/25 19:09:50 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,9 @@ typedef struct s_data
 	long					time_sleep;
 	int						id;
 	long					nb_eat;
-	char					*nb;
-	int						thinking;
-	int						finish;
 	int						die;
-	unsigned long long int	timesleeping;
 	unsigned long long int	timestart;
-	unsigned long long int	timefork;
 	unsigned long long int	timeeating;
-	unsigned long long int	timethinking;
-	unsigned long long int	timestamp;
 	sem_t					*sem_printf;
 	sem_t					*sem_fork;
 	sem_t					*sem_taking_fork;
@@ -55,7 +48,6 @@ typedef struct s_data
 	struct s_data			*next;
 	struct s_data			*first;
 	struct s_data			*last;
-	struct timeval			curent_time;
 }							t_philo;
 
 typedef struct s_sema
@@ -80,7 +72,6 @@ int							ft_check_if_number(char **argv, int index);
 int							ft_usleep(t_philo *philo,
 								unsigned long long time_sleep);
 int							ft_printf(char *str, t_philo *philo);
-char						*ft_itoa(int n);
 
 // Struct
 t_philo						*ft_init_struct(t_philo *philo);

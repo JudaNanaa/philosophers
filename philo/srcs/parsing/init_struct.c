@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 08:12:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/05 17:37:26 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/25 18:37:37 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@ t_philo	*ft_lstnew(int id, t_philo *philo)
 	new->time_eat = philo->time_eat * 1000;
 	new->time_sleep = philo->time_sleep * 1000;
 	new->nb_eat = philo->nb_eat;
-	new->timestart = ft_time(philo, 2);
-	if (new->timestart == 0)
-		return (free(new), NULL);
 	new->nb_philo = philo->nb_philo;
 	new->before = NULL;
 	new->next = NULL;

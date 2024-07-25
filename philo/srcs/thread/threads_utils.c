@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 17:04:57 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/22 05:17:02 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/25 19:07:55 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,17 @@
 #include <sys/time.h>
 #include <unistd.h>
 
-int	ft_printf(char *str, unsigned long long int time, t_philo *philo)
+int	ft_printf(char *str, t_philo *philo)
 {
+	unsigned long long int	time;
+
 	pthread_mutex_lock(philo->mutexprintf);
 	if (ft_get_if_die(philo) == 0)
 	{
-		time = ft_time(philo, 2) / 1000;
+		time = ft_time(philo, 2);
 		if (time == 0)
 			return (pthread_mutex_unlock(philo->mutexprintf), 0);
-		printf(str, time - philo->timestart / 1000, philo->id);
+		printf(str, (time - philo->timestart) / 1000, philo->id);
 	}
 	pthread_mutex_unlock(philo->mutexprintf);
 	return (1);

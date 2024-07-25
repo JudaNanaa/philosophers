@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 12:16:09 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/22 05:13:30 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/25 18:39:53 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,5 @@ int	ft_parse_args(int argc, char **argv, t_philo *data)
 	}
 	else
 		data->nb_eat = -1;
-	data->nb_eat_args = argv[5];
 	return (1);
 }

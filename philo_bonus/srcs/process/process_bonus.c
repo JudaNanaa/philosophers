@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 13:40:51 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/24 02:48:16 by madamou          ###   ########.fr       */
+/*   Updated: 2024/07/25 19:16:36 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ int	ft_creating_process(t_philo *philo, pid_t *pid)
 		return (-1);
 	while (++i <= nb_philo - 1)
 	{
-		philo->timestamp = time;
+		philo->timestart = time;
+		philo->timeeating = philo->timestart;
 		if (ft_fork_create(&pid[i], philo, i) != 0)
 			return (printf("Error creating forks %d\n", i), 0);
 		philo = philo->before;
