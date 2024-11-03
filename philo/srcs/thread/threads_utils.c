@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 17:04:57 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/25 19:07:55 by madamou          ###   ########.fr       */
+/*   Updated: 2024/11/03 21:01:58 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,19 @@ void	ft_all_set_to_dead(t_philo *philo)
 {
 	unsigned long long int	time_death;
 	t_philo					*buff;
+	int i;
 
 	time_death = ft_time(philo, 2);
 	if (time_death == 0)
 		return ;
 	buff = philo;
 	printf("%lld %d died\n", (time_death - philo->timestart) / 1000, buff->id);
-	philo = philo->first;
 	pthread_mutex_lock(buff->mutexdie);
-	while (philo)
+	i = 0;
+	while (i < philo[0].nb_philo)
 	{
-		philo->die = 1;
-		philo = philo->next;
+		philo[i].die = 1;
+		i++;
 	}
 	pthread_mutex_unlock(buff->mutexdie);
 	pthread_mutex_unlock(buff->mutexprintf);

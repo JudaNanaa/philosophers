@@ -6,83 +6,39 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 08:12:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/25 18:37:37 by madamou          ###   ########.fr       */
+/*   Updated: 2024/11/03 15:08:01 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
 #include <stdio.h>
 
-t_philo	*ft_lstnew(int id, t_philo *philo)
+void	ft_set_philos(t_philo *philo, int id, t_philo *data)
 {
-	t_philo	*new;
-
-	new = malloc(sizeof(t_philo));
-	if (!new)
-		return (NULL);
-	new->id = id;
-	new->die = 0;
-	new->nb_eat = philo->nb_eat;
-	new->time_die = philo->time_die * 1000;
-	new->time_eat = philo->time_eat * 1000;
-	new->time_sleep = philo->time_sleep * 1000;
-	new->nb_eat = philo->nb_eat;
-	new->nb_philo = philo->nb_philo;
-	new->before = NULL;
-	new->next = NULL;
-	return (new);
-}
-
-t_philo	*ft_add_back(t_philo *philos, t_philo *new)
-{
-	t_philo	*buff;
-
-	buff = philos;
-	if (!philos)
-	{
-		philos = new;
-		new->before = NULL;
-	}
-	else
-	{
-		while (buff->next)
-			buff = buff->next;
-		buff->next = new;
-		new->before = buff;
-	}
-	new->next = NULL;
-	new->first = philos;
-	philos->last = new;
-	return (philos);
-}
-
-t_philo	*ft_clear_philos(t_philo *philos)
-{
-	t_philo	*buff;
-
-	if (!philos)
-		return (NULL);
-	buff = philos->next;
-	free(philos);
-	return (ft_clear_philos(buff));
+	philo->id = id;
+	philo->die = 0;
+	philo->nb_eat = data->nb_eat;
+	philo->time_die = data->time_die * 1000;
+	philo->time_eat = data->time_eat * 1000;
+	philo->time_sleep = data->time_sleep * 1000;
+	philo->nb_eat = data->nb_eat;
+	philo->nb_philo = data->nb_philo;
 }
 
 t_philo	*ft_init_struct(t_philo *philo)
 {
 	int		i;
 	t_philo	*philos;
-	t_philo	*new;
-
-	i = 1;
-	philos = NULL;
-	while (i <= philo->nb_philo)
+	
+	i = 0;
+	philos = malloc(sizeof(t_philo) * philo->nb_philo);
+	if (philos == NULL)
+		return (NULL);
+	while (i < philo->nb_philo)
 	{
-		new = ft_lstnew(i, philo);
-		if (!new)
-			return (NULL);
-		philos = ft_add_back(philos, new);
+		ft_set_philos(&philos[i], i + 1, philo);
+		philos[i].id = i + 1;
 		i++;
 	}
-	philos->first->before = philos->last;
 	return (philos);
 }

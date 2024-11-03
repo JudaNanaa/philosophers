@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:59:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/25 18:56:04 by madamou          ###   ########.fr       */
+/*   Updated: 2024/11/03 21:05:18 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,16 @@ typedef struct s_data
 	unsigned long long int	timestart;
 	unsigned long long int	timeeating;
 	pthread_mutex_t			*mutexprintf;
-	pthread_mutex_t			*mutexfork;
+	pthread_mutex_t			my_fork;
+	pthread_mutex_t			*next_fork;
 	pthread_mutex_t			*mutexdie;
-	pthread_mutex_t			*mutex_nb_eat;
-	struct s_data			*before;
-	struct s_data			*next;
-	struct s_data			*first;
-	struct s_data			*last;
+	pthread_mutex_t			mutex_nb_eat;
 }							t_philo;
 
 typedef struct s_mutex
 {
-	pthread_mutex_t			*mutexprintf;
-	pthread_mutex_t			*mutexfork;
-	pthread_mutex_t			*mutexdie;
+	pthread_mutex_t			mutexprintf;
+	pthread_mutex_t			mutexdie;
 }							t_mutex;
 
 extern int					usleep(__useconds_t __useconds);
@@ -92,8 +88,6 @@ unsigned long long int		ft_set_last_eat(t_philo *philo);
 int							ft_get_if_die(t_philo *philo);
 
 // Mutex
-int							ft_mutex_to_philo(t_mutex *mutex, t_philo *philo);
-void						ft_destroy_mutex(t_mutex *mutex, t_philo *philo);
 int							ft_init_mutex(t_mutex *mutex);
 
 #endif // !FT_PHILO_H

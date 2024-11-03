@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:17:33 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/25 19:03:14 by madamou          ###   ########.fr       */
+/*   Updated: 2024/11/03 21:02:04 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,12 @@ void	*ft_routine(void *args)
 
 void	ft_main_thread(t_philo *philo)
 {
-	while (philo)
+	int i;
+	int nb_philo;
+
+	i = 0;
+	nb_philo = philo[0].nb_philo;
+	while (1)
 	{
 		if (ft_check_if_die(philo) == 1)
 		{
@@ -47,7 +52,9 @@ void	ft_main_thread(t_philo *philo)
 		if (ft_check_if_all_finish_eat(philo) == 1)
 			return ;
 		usleep(10);
-		philo = philo->before;
+		i++;
+		if (i == nb_philo)
+			i = 0;
 	}
 }
 
@@ -60,17 +67,17 @@ int	ft_eating(t_philo *philo)
 {
 	if (philo->nb_philo % 2 != 0 || philo->id % 2 == 0)
 	{
-		if (ft_taking_fork(philo, philo->before->mutexfork) == 0)
+		if (ft_taking_fork(philo, philo->next_fork) == 0)
 			return (0);
-		if (ft_taking_fork(philo, philo->mutexfork) == 0)
-			return (pthread_mutex_unlock(philo->before->mutexfork), 0);
+		if (ft_taking_fork(philo, &philo->my_fork) == 0)
+			return (pthread_mutex_unlock(philo->next_fork), 0);
 	}
 	else
 	{
-		if (ft_taking_fork(philo, philo->mutexfork) == 0)
+		if (ft_taking_fork(philo, &philo->my_fork) == 0)
 			return (0);
-		if (ft_taking_fork(philo, philo->before->mutexfork) == 0)
-			return (pthread_mutex_unlock(philo->mutexfork), 0);
+		if (ft_taking_fork(philo, philo->next_fork) == 0)
+			return (pthread_mutex_unlock(&philo->my_fork), 0);
 	}
 	if (ft_printf("%lld %d is eating\n", philo) == 0)
 		return (ft_drop_fork(philo), 0);

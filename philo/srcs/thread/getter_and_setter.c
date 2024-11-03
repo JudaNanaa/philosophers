@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 05:14:19 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/22 05:15:03 by madamou          ###   ########.fr       */
+/*   Updated: 2024/11/03 21:02:13 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ unsigned long long int	ft_get_last_eat(t_philo *philo)
 {
 	unsigned long long int	result;
 
-	pthread_mutex_lock(philo->mutex_nb_eat);
+	pthread_mutex_lock(&philo->mutex_nb_eat);
 	result = philo->timeeating;
-	pthread_mutex_unlock(philo->mutex_nb_eat);
+	pthread_mutex_unlock(&philo->mutex_nb_eat);
 	return (result);
 }
 
@@ -39,8 +39,8 @@ unsigned long long int	ft_set_last_eat(t_philo *philo)
 	result = ft_time(philo, 2);
 	if (result == 0)
 		return (0);
-	pthread_mutex_lock(philo->mutex_nb_eat);
+	pthread_mutex_lock(&philo->mutex_nb_eat);
 	philo->timeeating = result;
-	pthread_mutex_unlock(philo->mutex_nb_eat);
+	pthread_mutex_unlock(&philo->mutex_nb_eat);
 	return (1);
 }

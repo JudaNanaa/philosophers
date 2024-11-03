@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 00:36:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/25 19:00:51 by madamou          ###   ########.fr       */
+/*   Updated: 2024/11/03 21:01:35 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,101 +15,82 @@
 #include <sys/select.h>
 #include <unistd.h>
 
+
 int	ft_init_mutex(t_mutex *mutex)
 {
-	pthread_mutex_t	*mutexprintf;
-	pthread_mutex_t	*mutexdie;
-
-	mutexprintf = malloc(sizeof(pthread_mutex_t));
-	if (!mutexprintf)
-	{
-		printf("Error malloc mutex\n");
-		return (-1);
-	}
-	mutexdie = malloc(sizeof(pthread_mutex_t));
-	if (!mutexdie)
-	{
-		printf("Error malloc mutex\n");
-		free(mutexprintf);
-		return (-1);
-	}
-	pthread_mutex_init(mutexprintf, NULL);
-	pthread_mutex_init(mutexdie, NULL);
-	mutex->mutexprintf = mutexprintf;
-	mutex->mutexdie = mutexdie;
-	return (0);
+	pthread_mutex_init(&mutex->mutexprintf, NULL);
+	pthread_mutex_init(&mutex->mutexdie, NULL);
+	return (1);
 }
 
 void	ft_destroy_mutex(t_mutex *mutex, t_philo *philo)
 {
 	t_philo	*tmp;
+	int i;
+	int nb_philos;
 
+	i = 0;
+	nb_philos = philo[0].nb_philo;
 	tmp = philo;
-	while (philo)
+	
+	while (i < nb_philos)
 	{
-		pthread_mutex_destroy(philo->mutexfork);
-		philo = philo->next;
+		pthread_mutex_destroy(&philo[i].my_fork);
+		i++;
 	}
-	free(tmp->first->mutexfork);
-	free(tmp->first->mutex_nb_eat);
-	pthread_mutex_destroy(mutex->mutexprintf);
-	pthread_mutex_destroy(mutex->mutexdie);
-	free(mutex->mutexprintf);
-	free(mutex->mutexdie);
+	pthread_mutex_destroy(&mutex->mutexprintf);
+	pthread_mutex_destroy(&mutex->mutexdie);
 }
 
 int	ft_mutex_to_philo(t_mutex *mutex, t_philo *philo)
 {
-	pthread_mutex_t	*mutexfork;
-	pthread_mutex_t	*mutex_nb_eat;
-	t_philo			*buff;
 	int				i;
-
+	int nb_philos;
+	
 	i = 0;
-	buff = philo->first;
-	mutexfork = malloc(sizeof(pthread_mutex_t) * philo->nb_philo);
-	if (!mutexfork)
+	nb_philos = philo[0].nb_philo;
+	if (ft_time(philo, 1) == 0)
 		return (0);
-	mutex_nb_eat = malloc(sizeof(pthread_mutex_t) * philo->nb_philo);
-	if (!mutex_nb_eat || ft_time(philo, 1) == 0)
-		return (free(mutex_nb_eat), 0);
-	while (philo)
+	while (i < nb_philos)
 	{
-		pthread_mutex_init(&mutexfork[i], NULL);
-		pthread_mutex_init(&mutex_nb_eat[i], NULL);
-		philo->mutexprintf = mutex->mutexprintf;
-		philo->mutex_nb_eat = &mutex_nb_eat[i];
-		philo->mutexfork = &mutexfork[i++];
-		philo->mutexdie = mutex->mutexdie;
-		philo->timestart = philo->first->timestart;
-		philo = philo->next;
+		pthread_mutex_init(&philo[i].my_fork, NULL);
+		pthread_mutex_init(&philo[i].mutex_nb_eat, NULL);
+		if (i == 0)
+			philo[i].next_fork = &philo[nb_philos - 1].my_fork;
+		else
+			philo[i].next_fork = &philo[i - 1].my_fork;
+		philo[i].mutexprintf = &mutex->mutexprintf;
+		philo[i].mutexdie = &mutex->mutexdie;
+		philo[i].timestart = philo[0].timestart;
+		philo[i].timeeating = philo[0].timestart;
+		i++;
 	}
-	return (philo = buff, 1);
+	return (1);
 }
 
 int	ft_creating_threads(t_philo *philo, pthread_t *threads)
 {
 	int		i;
 	int		nb_philo;
-	t_mutex	mutex;
+	t_mutex mutex;
 
-	i = -1;
-	nb_philo = philo->nb_philo;
-	if (ft_init_mutex(&mutex) == -1 || ft_mutex_to_philo(&mutex, philo) == 0)
+	i = 0;
+	nb_philo = philo[0].nb_philo;
+	if (ft_init_mutex(&mutex) == 0|| ft_mutex_to_philo(&mutex, philo) == 0)
 		return (0);
-	while (++i <= nb_philo - 1)
+	while (i < nb_philo)
 	{
-		philo->timeeating = philo->timestart;
-		if (pthread_create(&threads[i], NULL, &ft_routine, philo) != 0)
+		if (pthread_create(&threads[i], NULL, &ft_routine, &philo[i]) != 0)
 			return (printf("Error creating threads %d\n", i), 0);
-		philo = philo->before;
+		i++;
 	}
 	ft_main_thread(philo);
-	i = -1;
-	while (++i <= nb_philo - 1)
+	i = 0;
+	while (i < nb_philo)
 	{
 		if (pthread_join(threads[i], NULL) != 0)
 			return (printf("Error waiting threads %d\n", i), 0);
+		i++;
 	}
 	return (ft_destroy_mutex(&mutex, philo), 1);
 }
@@ -118,7 +99,7 @@ int	ft_thread(t_philo *philo)
 {
 	pthread_t	*threads;
 
-	threads = malloc(sizeof(pthread_t) * philo->nb_philo);
+	threads = malloc(sizeof(pthread_t) * philo[0].nb_philo);
 	if (!threads)
 		return (printf("Error malloc philos\n"), 0);
 	if (ft_creating_threads(philo, threads) == 0)

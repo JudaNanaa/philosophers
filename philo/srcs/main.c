@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:57:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/02 10:07:06 by madamou          ###   ########.fr       */
+/*   Updated: 2024/11/03 15:00:24 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ int	main(int argc, char **argv)
 		return (1);
 	philos = ft_init_struct(&philo);
 	ft_thread(philos);
-	ft_clear_philos(philos);
+	free(philos);
 	return (0);
 }
