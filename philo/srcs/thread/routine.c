@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:17:33 by madamou           #+#    #+#             */
-/*   Updated: 2024/11/03 21:02:04 by madamou          ###   ########.fr       */
+/*   Updated: 2024/11/04 13:53:08 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	*ft_routine(void *args)
 
 void	ft_main_thread(t_philo *philo)
 {
-	int i;
-	int nb_philo;
+	int	i;
+	int	nb_philo;
 
 	i = 0;
 	nb_philo = philo[0].nb_philo;

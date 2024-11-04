@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 08:12:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/11/03 15:08:01 by madamou          ###   ########.fr       */
+/*   Updated: 2024/11/04 13:52:45 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_philo	*ft_init_struct(t_philo *philo)
 {
 	int		i;
 	t_philo	*philos;
-	
+
 	i = 0;
 	philos = malloc(sizeof(t_philo) * philo->nb_philo);
 	if (philos == NULL)

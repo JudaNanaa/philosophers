@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 00:36:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/11/03 21:01:35 by madamou          ###   ########.fr       */
+/*   Updated: 2024/11/04 13:54:44 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <stdio.h>
 #include <sys/select.h>
 #include <unistd.h>
-
 
 int	ft_init_mutex(t_mutex *mutex)
 {
@@ -26,13 +25,12 @@ int	ft_init_mutex(t_mutex *mutex)
 void	ft_destroy_mutex(t_mutex *mutex, t_philo *philo)
 {
 	t_philo	*tmp;
-	int i;
-	int nb_philos;
+	int		i;
+	int		nb_philos;
 
 	i = 0;
 	nb_philos = philo[0].nb_philo;
 	tmp = philo;
-	
 	while (i < nb_philos)
 	{
 		pthread_mutex_destroy(&philo[i].my_fork);
@@ -44,9 +42,9 @@ void	ft_destroy_mutex(t_mutex *mutex, t_philo *philo)
 
 int	ft_mutex_to_philo(t_mutex *mutex, t_philo *philo)
 {
-	int				i;
-	int nb_philos;
-	
+	int	i;
+	int	nb_philos;
+
 	i = 0;
 	nb_philos = philo[0].nb_philo;
 	if (ft_time(philo, 1) == 0)
@@ -72,11 +70,11 @@ int	ft_creating_threads(t_philo *philo, pthread_t *threads)
 {
 	int		i;
 	int		nb_philo;
-	t_mutex mutex;
+	t_mutex	mutex;
 
 	i = 0;
 	nb_philo = philo[0].nb_philo;
-	if (ft_init_mutex(&mutex) == 0|| ft_mutex_to_philo(&mutex, philo) == 0)
+	if (ft_init_mutex(&mutex) == 0 || ft_mutex_to_philo(&mutex, philo) == 0)
 		return (0);
 	while (i < nb_philo)
 	{

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 17:04:57 by madamou           #+#    #+#             */
-/*   Updated: 2024/11/03 21:01:58 by madamou          ###   ########.fr       */
+/*   Updated: 2024/11/04 13:55:06 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	ft_all_set_to_dead(t_philo *philo)
 {
 	unsigned long long int	time_death;
 	t_philo					*buff;
-	int i;
+	int						i;
 
 	time_death = ft_time(philo, 2);
 	if (time_death == 0)

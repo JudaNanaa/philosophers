@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 22:42:13 by madamou           #+#    #+#             */
-/*   Updated: 2024/11/03 15:22:14 by madamou          ###   ########.fr       */
+/*   Updated: 2024/11/04 13:53:26 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	ft_drop_fork(t_philo *philo)
 
 int	ft_check_if_all_finish_eat(t_philo *philo)
 {
-	int i;
-	int nb_philo;
+	int	i;
+	int	nb_philo;
 
 	i = 0;
 	nb_philo = philo[0].nb_philo;
