@@ -6,16 +6,17 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 22:42:13 by madamou           #+#    #+#             */
-/*   Updated: 2024/12/23 20:01:55 by madamou          ###   ########.fr       */
+/*   Updated: 2024/12/24 02:22:24 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
 #include <stdio.h>
 
-int	taking_fork(t_philo *philo, pthread_mutex_t *mutex)
+int	taking_one_fork(t_philo *philo, pthread_mutex_t *mutex)
 {
-	pthread_mutex_lock(mutex);
+	if (pthread_mutex_lock(mutex) != 0)
+		return (FINISH);
 	return (ft_printf(philo, FORK));
 }
 
@@ -35,9 +36,7 @@ void	drop_fork(t_philo *philo)
 
 void	one_philo(t_philo *philo)
 {
-	if (thinking(philo) == FINISH)
-		return ;
-	if (taking_fork(philo, &philo->my_fork) == 0)
+	if (taking_one_fork(philo, &philo->my_fork) == FINISH)
 		return ;
 	if (check_if_die(philo) == FINISH)
 	{

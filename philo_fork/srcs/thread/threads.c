@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 00:36:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/12/23 21:15:01 by madamou          ###   ########.fr       */
+/*   Updated: 2024/12/24 01:50:59 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,38 +15,33 @@
 #include <sys/select.h>
 #include <unistd.h>
 
-void	ft_destroy_mutex(t_mutex *mutex, t_philo *philo)
+void	ft_destroy_mutex(t_philo *philos, t_data *data)
 {
-	t_philo	*tmp;
 	int		i;
 	int		nb_philos;
 
 	i = 0;
-	nb_philos = philo[0].data->nb_philo;
-	tmp = philo;
+	nb_philos = data->nb_philo;
 	while (i < nb_philos)
 	{
-		pthread_mutex_destroy(&philo[i].my_fork);
+		pthread_mutex_destroy(&philos[i].my_fork);
 		i++;
 	}
-	pthread_mutex_destroy(&mutex->mutexprintf);
-	pthread_mutex_destroy(&mutex->mutexdie);
+	pthread_mutex_destroy(&data->mutex_printf);
+	pthread_mutex_destroy(&data->mutex_die);
 }
 
-int	ft_thread(t_philo *philos)
+int	ft_thread(t_philo *philos, t_data *data)
 {
 	int		i;
 	int		nb_philo;
-	long long time_start;
-	t_mutex	mutex;
 
 	i = 0;
-	nb_philo = philos[0].data->nb_philo;
-	time_start = get_time();
-	philos->data->time_start = time_start;
+	nb_philo = data->nb_philo;
+	data->time_start = get_time();
 	while (i < nb_philo)
 	{
-		philos[i].last_meal = time_start;	
+		philos[i].last_meal = data->time_start;	
 		if (pthread_create(&philos[i].thread, NULL, &routine, &philos[i]) != 0)
 			return (printf("Error creating threads %d\n", i), 0);
 		i++;
@@ -58,5 +53,5 @@ int	ft_thread(t_philo *philos)
 			return (printf("Error waiting threads %d\n", i), 0);
 		i++;
 	}
-	return (ft_destroy_mutex(&mutex, philos), 1);
+	return (ft_destroy_mutex(philos, data), 1);
 }

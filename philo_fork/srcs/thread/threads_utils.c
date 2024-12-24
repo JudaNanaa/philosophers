@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 17:04:57 by madamou           #+#    #+#             */
-/*   Updated: 2024/12/23 21:13:25 by madamou          ###   ########.fr       */
+/*   Updated: 2024/12/24 02:19:54 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,6 @@ t_state	ft_printf(t_philo *philo, char *message)
 	return (CONTINUE);
 }
 
-t_state set_simulation_finish(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->data->mutex_die);
-	philo->data->state = FINISH;
-	pthread_mutex_unlock(&philo->data->mutex_die);
-	return (FINISH);
-}
-
 t_state get_simulation_state(t_philo *philo)
 {
 	t_state state;
@@ -51,19 +43,35 @@ t_state get_simulation_state(t_philo *philo)
 	return (state);
 }
 
+t_state set_simulation_finish(t_philo *philo)
+{
+	long long actual_time;
+
+	if (get_simulation_state(philo) == FINISH)
+		return (FINISH);
+	pthread_mutex_lock(&philo->data->mutex_die);
+	philo->data->state = FINISH;
+	pthread_mutex_unlock(&philo->data->mutex_die);
+	actual_time = (get_time() - philo->data->time_start) / 1000;
+	printf("%lld %d %s\n", actual_time, philo->id, DIE);
+	return (FINISH);
+}
+
 t_state check_if_die(t_philo *philo)
 {
 	long long int	last_eat;
-	long long int	time;
+	long long int	actual_time;
+	long long int	time_die;
 
-	last_eat = philo->last_meal;
 	if (get_simulation_state(philo) == FINISH)
 		return (FINISH);
-	time = get_time();
-	if (time == 0)
+	actual_time = get_time();
+	if (actual_time == 0)
 		return (FINISH);
-	if (time - last_eat >= philo->data->time_die)
-		return (FINISH);
+	last_eat = philo->last_meal;
+	time_die = philo->data->time_die;
+	if (actual_time - last_eat >= time_die)
+		return (set_simulation_finish(philo));
 	return (CONTINUE);
 }
 
@@ -82,6 +90,9 @@ t_state	ft_usleep(t_philo *philo, long long time_sleep)
 		if (usleep(10) == -1)
 			return (FINISH);
 		if (check_if_die(philo) == FINISH)
+			return (FINISH);
+		time = get_time();
+		if (time == 0)
 			return (FINISH);
 	}
 	return (CONTINUE);

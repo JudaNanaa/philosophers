@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 08:12:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/12/23 21:08:41 by madamou          ###   ########.fr       */
+/*   Updated: 2024/12/24 01:48:59 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ void	set_data(t_data *data)
 	data->time_die *= 1000;
 	data->time_eat *= 1000;
 	data->time_sleep *= 1000;
+	if (data->nb_philo % 2 == 0)
+		data->time_think = data->time_eat - data->time_sleep;
+	else
+		data->time_think = (data->time_eat * 2) - data->time_sleep;
 	data->state = CONTINUE;
 	pthread_mutex_init(&data->mutex_die, NULL); // TODO: protect this
 	pthread_mutex_init(&data->mutex_printf, NULL); // TODO: protect this

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:59:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/11/03 21:05:18 by madamou          ###   ########.fr       */
+/*   Updated: 2024/12/21 00:56:05 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_data
 	int						die;
 	unsigned long long int	timestart;
 	unsigned long long int	timeeating;
+	pthread_t				threads;
 	pthread_mutex_t			*mutexprintf;
 	pthread_mutex_t			my_fork;
 	pthread_mutex_t			*next_fork;
@@ -64,8 +65,7 @@ t_philo						*ft_clear_philos(t_philo *philos);
 int							ft_check_if_die(t_philo *philos);
 
 // Threads
-int							ft_creating_threads(t_philo *data,
-								pthread_t *philos);
+int							ft_creating_threads(t_philo *data);
 int							ft_thread(t_philo *data);
 int							ft_eating(t_philo *philo);
 int							ft_sleeping(t_philo *philo);

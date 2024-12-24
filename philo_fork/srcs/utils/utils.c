@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 08:10:23 by madamou           #+#    #+#             */
-/*   Updated: 2024/12/23 21:03:51 by madamou          ###   ########.fr       */
+/*   Updated: 2024/12/24 00:28:57 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,5 @@ long long int	get_time(void)
 
 	if (gettimeofday(&time, NULL) == -1)
 		return (0);
-	return (((time.tv_sec * 1000000) + time.tv_usec));
+	return ((time.tv_sec * 1000000) + time.tv_usec);
 }

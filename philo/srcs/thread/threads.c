@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 00:36:35 by madamou           #+#    #+#             */
-/*   Updated: 2024/11/04 13:54:44 by madamou          ###   ########.fr       */
+/*   Updated: 2024/12/21 00:56:57 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	ft_mutex_to_philo(t_mutex *mutex, t_philo *philo)
 	return (1);
 }
 
-int	ft_creating_threads(t_philo *philo, pthread_t *threads)
+int	ft_creating_threads(t_philo *philo)
 {
 	int		i;
 	int		nb_philo;
@@ -78,7 +78,7 @@ int	ft_creating_threads(t_philo *philo, pthread_t *threads)
 		return (0);
 	while (i < nb_philo)
 	{
-		if (pthread_create(&threads[i], NULL, &ft_routine, &philo[i]) != 0)
+		if (pthread_create(&philo[i].threads, NULL, &ft_routine, &philo[i]) != 0)
 			return (printf("Error creating threads %d\n", i), 0);
 		i++;
 	}
@@ -86,7 +86,7 @@ int	ft_creating_threads(t_philo *philo, pthread_t *threads)
 	i = 0;
 	while (i < nb_philo)
 	{
-		if (pthread_join(threads[i], NULL) != 0)
+		if (pthread_join(philo[i].threads, NULL) != 0)
 			return (printf("Error waiting threads %d\n", i), 0);
 		i++;
 	}
@@ -95,13 +95,7 @@ int	ft_creating_threads(t_philo *philo, pthread_t *threads)
 
 int	ft_thread(t_philo *philo)
 {
-	pthread_t	*threads;
-
-	threads = malloc(sizeof(pthread_t) * philo[0].nb_philo);
-	if (!threads)
-		return (printf("Error malloc philos\n"), 0);
-	if (ft_creating_threads(philo, threads) == 0)
-		return (free(threads), 0);
-	free(threads);
+	if (ft_creating_threads(philo) == 0)
+		return (0);
 	return (1);
 }

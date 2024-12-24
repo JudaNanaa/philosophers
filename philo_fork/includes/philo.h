@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:59:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/12/23 21:04:00 by madamou          ###   ########.fr       */
+/*   Updated: 2024/12/24 02:05:27 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_data
 	long					time_die;
 	long					time_eat;
 	long					time_sleep;
+	long					time_think;
 	long					nb_must_eat;
 	long long				time_start;
 	t_state					state;
@@ -84,12 +85,12 @@ t_philo						*clear_philos(t_philo *philos);
 t_state						check_if_die(t_philo *philos);
 
 // Threads
-int							ft_thread(t_philo *data);
+int							ft_thread(t_philo *philos, t_data *data);
 t_state							eating(t_philo *philo);
 t_state							sleeping(t_philo *philo);
 t_state							thinking(t_philo *philo);
 void						*routine(void *args);
-int							taking_fork(t_philo *philo,
+int							taking_one_fork(t_philo *philo,
 								pthread_mutex_t *mutex);
 void						drop_fork(t_philo *philo);
 void						one_philo(t_philo *philo);
