@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:57:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/11/03 15:00:24 by madamou          ###   ########.fr       */
+/*   Updated: 2024/12/24 01:41:06 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
 
 int	main(int argc, char **argv)
 {
-	t_philo	philo;
+	t_data	data;
 	t_philo	*philos;
 
-	if (ft_parse_args(argc, argv, &philo) == 0)
+	if (parse_args(argc, argv, &data) == 0)
 		return (1);
-	philos = ft_init_struct(&philo);
-	ft_thread(philos);
+	philos = init_philo(&data);
+	ft_thread(philos, &data);
 	free(philos);
 	return (0);
 }

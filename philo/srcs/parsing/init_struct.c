@@ -6,38 +6,46 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 08:12:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/11/04 13:52:45 by madamou          ###   ########.fr       */
+/*   Updated: 2024/12/24 16:20:59 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
+#include <pthread.h>
 #include <stdio.h>
+#include <string.h>
 
-void	ft_set_philos(t_philo *philo, int id, t_philo *data)
+void	set_data(t_data *data)
 {
-	philo->id = id;
-	philo->die = 0;
-	philo->nb_eat = data->nb_eat;
-	philo->time_die = data->time_die * 1000;
-	philo->time_eat = data->time_eat * 1000;
-	philo->time_sleep = data->time_sleep * 1000;
-	philo->nb_eat = data->nb_eat;
-	philo->nb_philo = data->nb_philo;
+	data->time_die *= 1000;
+	data->time_eat *= 1000;
+	data->time_sleep *= 1000;
+	if (data->nb_philo % 2 == 0)
+		data->time_think = data->time_eat - data->time_sleep;
+	else
+		data->time_think = (data->time_eat * 2) - data->time_sleep;
+	data->state = CONTINUE;
+	pthread_mutex_init(&data->mutex_die, NULL);
+	pthread_mutex_init(&data->mutex_printf, NULL);
 }
 
-t_philo	*ft_init_struct(t_philo *philo)
+t_philo	*init_philo(t_data *data)
 {
 	int		i;
 	t_philo	*philos;
 
 	i = 0;
-	philos = malloc(sizeof(t_philo) * philo->nb_philo);
+	set_data(data);
+	philos = malloc(sizeof(t_philo) * data->nb_philo);
 	if (philos == NULL)
 		return (NULL);
-	while (i < philo->nb_philo)
+	memset(philos, 0, sizeof(t_philo) * data->nb_philo);
+	while (i < data->nb_philo)
 	{
-		ft_set_philos(&philos[i], i + 1, philo);
 		philos[i].id = i + 1;
+		philos[i].data = data;
+		pthread_mutex_init(&philos[i].my_fork, NULL);
+		philos[i].right_fork = &philos[(i + 1) % data->nb_philo].my_fork;
 		i++;
 	}
 	return (philos);

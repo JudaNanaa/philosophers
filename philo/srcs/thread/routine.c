@@ -6,94 +6,98 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:17:33 by madamou           #+#    #+#             */
-/*   Updated: 2024/11/04 13:53:08 by madamou          ###   ########.fr       */
+/*   Updated: 2024/12/24 15:38:36 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
+#include <stdio.h>
 
-void	*ft_routine(void *args)
+void	*routine(void *args)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)args;
 	if (philo->id % 2 == 0)
 		ft_usleep(philo, 100);
-	while (philo->nb_philo != 1)
+	if (philo->data->nb_must_eat == 0)
+		return (NULL);
+	while (philo->data->nb_philo != 1)
 	{
-		if (ft_thinking(philo) == 0)
+		if (eating(philo) == FINISH)
 			return (NULL);
-		if (philo->nb_eat == 0 || ft_eating(philo) == 0)
+		if (philo->nb_eat == philo->data->nb_must_eat)
 			return (NULL);
-		if (philo->nb_eat == 0)
+		if (sleeping(philo) == FINISH)
 			return (NULL);
-		if (ft_sleeping(philo) == 0)
+		if (thinking(philo) == FINISH)
 			return (NULL);
 	}
-	ft_one_philo(philo);
+	one_philo(philo);
 	return (NULL);
 }
 
-void	ft_main_thread(t_philo *philo)
+t_state	taking_fork(t_philo *philo)
 {
-	int	i;
-	int	nb_philo;
-
-	i = 0;
-	nb_philo = philo[0].nb_philo;
-	while (1)
+	if (philo->data->nb_philo % 2 != 0 || philo->id % 2 == 0)
 	{
-		if (ft_check_if_die(philo) == 1)
+		if (taking_one_fork(philo, philo->right_fork) == FINISH)
+			return (FINISH);
+		if (taking_one_fork(philo, &philo->my_fork) == FINISH)
 		{
-			pthread_mutex_lock(philo->mutexprintf);
-			ft_all_set_to_dead(philo);
-			return ;
+			pthread_mutex_unlock(philo->right_fork);
+			return (FINISH);
 		}
-		if (ft_check_if_all_finish_eat(philo) == 1)
-			return ;
-		usleep(10);
-		i++;
-		if (i == nb_philo)
-			i = 0;
-	}
-}
-
-int	ft_thinking(t_philo *philo)
-{
-	return (ft_printf("%lld %d is thinking\n", philo));
-}
-
-int	ft_eating(t_philo *philo)
-{
-	if (philo->nb_philo % 2 != 0 || philo->id % 2 == 0)
-	{
-		if (ft_taking_fork(philo, philo->next_fork) == 0)
-			return (0);
-		if (ft_taking_fork(philo, &philo->my_fork) == 0)
-			return (pthread_mutex_unlock(philo->next_fork), 0);
 	}
 	else
 	{
-		if (ft_taking_fork(philo, &philo->my_fork) == 0)
-			return (0);
-		if (ft_taking_fork(philo, philo->next_fork) == 0)
-			return (pthread_mutex_unlock(&philo->my_fork), 0);
+		if (taking_one_fork(philo, &philo->my_fork) == FINISH)
+			return (FINISH);
+		if (taking_one_fork(philo, philo->right_fork) == FINISH)
+		{
+			pthread_mutex_unlock(&philo->my_fork);
+			return (FINISH);
+		}
 	}
-	if (ft_printf("%lld %d is eating\n", philo) == 0)
-		return (ft_drop_fork(philo), 0);
-	if (ft_set_last_eat(philo) == 0)
-		return (ft_drop_fork(philo), 0);
-	if (ft_usleep(philo, philo->time_eat) == -1)
-		return (ft_drop_fork(philo), 0);
-	(ft_drop_fork(philo), ft_get_or_set_nb_eat(philo, 1));
-	return (1);
+	return (CONTINUE);
 }
 
-int	ft_sleeping(t_philo *philo)
+t_state	eating(t_philo *philo)
 {
-	if (ft_printf("%lld %d is sleeping\n", philo) == 0)
-		return (0);
-	if (ft_usleep(philo, philo->time_sleep) == -1)
-		return (0);
-	return (1);
+	if (taking_fork(philo) == FINISH)
+		return (FINISH);
+	if (ft_printf(philo, EAT) == FINISH)
+		return (drop_fork(philo), FINISH);
+	philo->last_meal = get_time();
+	if (philo->last_meal == 0)
+		return (drop_fork(philo), FINISH);
+	if (ft_usleep(philo, philo->data->time_eat) == FINISH)
+		return (drop_fork(philo), FINISH);
+	if (philo->data->nb_must_eat >= 0)
+		philo->nb_eat++;
+	drop_fork(philo);
+	return (CONTINUE);
+}
+
+t_state	sleeping(t_philo *philo)
+{
+	unsigned long long	time;
+
+	if (ft_printf(philo, SLEEP) == FINISH)
+		return (FINISH);
+	time = get_time();
+	if (time == 0)
+		return (FINISH);
+	if (ft_usleep(philo, philo->data->time_sleep) == FINISH)
+		return (FINISH);
+	return (CONTINUE);
+}
+
+t_state	thinking(t_philo *philo)
+{
+	if (ft_printf(philo, THINK) == FINISH)
+		return (FINISH);
+	if (ft_usleep(philo, philo->data->time_think) == FINISH)
+		return (FINISH);
+	return (CONTINUE);
 }

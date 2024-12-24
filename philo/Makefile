@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/07/22 05:15:30 by madamou          ###   ########.fr        #
+#    Updated: 2024/12/24 16:21:37 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,7 @@ SRCS_DIR = srcs/
 
 PARSING = $(addprefix parsing/, parsing_args.c parsing_utils.c init_struct.c)
 
-THREAD = $(addprefix thread/, threads.c threads_utils.c routine.c routine2.c \
-			getter_and_setter.c)
+THREAD = $(addprefix thread/, threads.c threads_utils.c routine.c routine2.c)
 
 UTILS = $(addprefix utils/, utils.c)
 
@@ -42,7 +41,7 @@ $(NAME) : $(OBJS)
 	$(CC) $(C_FLAGS) $^ -pthread -std=c11 -o $@
 
 $(OBJS_DIR)%.o : $(SRCS_DIR)%.c
-	$(DIR_DUP)
+	@$(DIR_DUP)
 	$(CC) $(C_FLAGS) -c  -pthread -std=c11 $< -o $@
 
 bonus :  $(BONUS)

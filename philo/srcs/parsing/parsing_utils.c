@@ -6,14 +6,14 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:36:31 by madamou           #+#    #+#             */
-/*   Updated: 2024/06/29 08:10:51 by madamou          ###   ########.fr       */
+/*   Updated: 2024/12/23 20:59:42 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo.h"
 #include <stdio.h>
 
-int	ft_check_if_number(char **argv, int index)
+int	check_if_number(char **argv, int index)
 {
 	int	i;
 

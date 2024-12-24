@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:59:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/12/21 00:56:05 by madamou          ###   ########.fr       */
+/*   Updated: 2024/12/24 16:18:26 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,79 +15,88 @@
 
 # include <bits/pthreadtypes.h>
 # include <pthread.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
 
+# define EAT "is eating"
+# define FORK "has taken a fork"
+# define SLEEP "is sleeping"
+# define THINK "is thinking"
+# define DIE "died"
+
+typedef enum s_state
+{
+	CONTINUE,
+	FINISH,
+}					t_state;
+
 typedef struct s_data
 {
-	long					nb_philo;
-	long					time_die;
-	long					time_eat;
-	long					time_sleep;
-	int						id;
-	long					nb_eat;
-	int						die;
-	unsigned long long int	timestart;
-	unsigned long long int	timeeating;
-	pthread_t				threads;
-	pthread_mutex_t			*mutexprintf;
-	pthread_mutex_t			my_fork;
-	pthread_mutex_t			*next_fork;
-	pthread_mutex_t			*mutexdie;
-	pthread_mutex_t			mutex_nb_eat;
-}							t_philo;
+	long			nb_philo;
+	long			time_die;
+	long			time_eat;
+	long			time_sleep;
+	long			time_think;
+	long			nb_must_eat;
+	long long		time_start;
+	t_state			state;
+	pthread_mutex_t	mutex_die;
+	pthread_mutex_t	mutex_printf;
+}					t_data;
+
+typedef struct s_philo
+{
+	pthread_mutex_t	my_fork;
+	pthread_mutex_t	*right_fork;
+	int				id;
+	pthread_t		thread;
+	long			nb_eat;
+	long long		last_meal;
+	t_data			*data;
+}					t_philo;
 
 typedef struct s_mutex
 {
-	pthread_mutex_t			mutexprintf;
-	pthread_mutex_t			mutexdie;
-}							t_mutex;
+	pthread_mutex_t	mutexprintf;
+	pthread_mutex_t	mutexdie;
+}					t_mutex;
 
-extern int					usleep(__useconds_t __useconds);
+extern int			usleep(__useconds_t __useconds);
 
 // Parsing
-int							ft_parse_args(int argc, char **argv, t_philo *data);
+int					parse_args(int argc, char **argv, t_data *data);
 
 // Utils
-unsigned long long int		ft_time(t_philo *philo, int cas);
-long						ft_atol(char *str);
-int							ft_check_if_number(char **argv, int index);
-int							ft_printf(char *str, t_philo *philo);
-int							ft_usleep(t_philo *philo,
-								unsigned long long time_sleep);
+long long			get_time(void);
+long				ft_atol(char *str);
+int					check_if_number(char **argv, int index);
+t_state				ft_printf(t_philo *philo, char *message);
+t_state				ft_usleep(t_philo *philo, long long time_sleep);
+t_state				set_simulation_finish(t_philo *philo);
 
 // Struct
-t_philo						*ft_init_struct(t_philo *philo);
-t_philo						*ft_clear_philos(t_philo *philos);
-int							ft_check_if_die(t_philo *philos);
+t_philo				*init_philo(t_data *data);
 
 // Threads
-int							ft_creating_threads(t_philo *data);
-int							ft_thread(t_philo *data);
-int							ft_eating(t_philo *philo);
-int							ft_sleeping(t_philo *philo);
-int							ft_thinking(t_philo *philo);
-void						*ft_routine(void *args);
-int							ft_taking_fork(t_philo *philo,
-								pthread_mutex_t *mutex);
-void						ft_drop_fork(t_philo *philo);
-void						ft_one_philo(t_philo *philo);
+int					ft_thread(t_philo *philos, t_data *data);
+t_state				eating(t_philo *philo);
+t_state				sleeping(t_philo *philo);
+t_state				thinking(t_philo *philo);
+void				*routine(void *args);
+int					taking_one_fork(t_philo *philo, pthread_mutex_t *mutex);
+void				drop_fork(t_philo *philo);
+void				one_philo(t_philo *philo);
 
 // Checker
-int							ft_get_or_set_nb_eat(t_philo *philo, int cas);
-unsigned long long int		ft_get_last_eat(t_philo *philo);
-void						ft_main_thread(t_philo *philo);
-int							ft_check_if_all_finish_eat(t_philo *philo);
-void						ft_all_set_to_dead(t_philo *philo);
-
-// getter and setter
-unsigned long long int		ft_set_last_eat(t_philo *philo);
-int							ft_get_if_die(t_philo *philo);
+t_state				get_simulation_state(t_philo *philo);
+t_state				set_simulation_finish(t_philo *philo);
+t_state				check_if_die(t_philo *philos);
 
 // Mutex
-int							ft_init_mutex(t_mutex *mutex);
+int					init_mutex(t_mutex *mutex);
 
 #endif // !FT_PHILO_H
