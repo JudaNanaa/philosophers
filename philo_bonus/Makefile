@@ -6,7 +6,7 @@
 #    By: madamou <madamou@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/17 12:57:50 by madamou           #+#    #+#              #
-#    Updated: 2024/07/24 02:59:57 by madamou          ###   ########.fr        #
+#    Updated: 2024/12/26 10:25:03 by madamou          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,14 +14,13 @@ CC = cc
 
 C_FLAGS = -Wall -Wextra -Werror -g3
 
-SRCS_DIR = srcs/
+SRCS_DIR = srcs
 
 PARSING = $(addprefix parsing/, parsing_args_bonus.c parsing_utils_bonus.c \
 				init_struct_bonus.c)
 
 PROCESS = $(addprefix process/, process_bonus.c routine_bonus.c process_utils_bonus.c \
-				routine2_bonus.c semaphores_bonus.c getter_and_setter_bonus.c \
-				routine_checker_bonus.c)
+				routine2_bonus.c semaphores_bonus.c getter_and_setter_bonus.c)
 
 UTILS = $(addprefix utils/, utils_bonus.c)
 

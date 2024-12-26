@@ -6,83 +6,69 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 08:12:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/22 15:45:49 by madamou          ###   ########.fr       */
+/*   Updated: 2024/12/26 10:27:57 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo_bonus.h"
+#include <pthread.h>
+#include <semaphore.h>
 #include <stdio.h>
+#include <string.h>
 
-t_philo	*ft_lstnew(int id, t_philo *philo)
+int set_data(t_data *data)
 {
-	t_philo	*new;
-
-	new = malloc(sizeof(t_philo));
-	if (!new)
-		return (NULL);
-	new->id = id;
-	new->die = 0;
-	new->nb_eat = philo->nb_eat;
-	new->time_die = philo->time_die * 1000;
-	new->time_eat = philo->time_eat * 1000;
-	new->time_sleep = philo->time_sleep * 1000;
-	new->nb_eat = philo->nb_eat;
-	new->nb_philo = philo->nb_philo;
-	new->before = NULL;
-	new->next = NULL;
-	return (new);
-}
-
-t_philo	*ft_add_back(t_philo *philos, t_philo *new)
-{
-	t_philo	*buff;
-
-	buff = philos;
-	if (!philos)
-	{
-		philos = new;
-		new->before = NULL;
-	}
+	data->time_die *= 1000;
+	data->time_eat *= 1000;
+	data->time_sleep *= 1000;
+	if (data->nb_philo % 2 == 0)
+		data->time_think = data->time_eat - data->time_sleep;
 	else
+		data->time_think = (data->time_eat * 2) - data->time_sleep;
+	(sem_unlink("fork"), sem_unlink("die"), sem_unlink("print"));
+	data->sema_fork = sem_open("fork", O_CREAT, 0600, data->nb_philo);
+	if (data->sema_fork == SEM_FAILED)
+		return (printf("Error open semaphore fork\n"), EXIT_FAILURE);
+	data->sema_printf = sem_open("print", O_CREAT, 0600, 1);
+	if (data->sema_printf == SEM_FAILED)
 	{
-		while (buff->next)
-			buff = buff->next;
-		buff->next = new;
-		new->before = buff;
+		sem_close(data->sema_fork);
+		return (printf("Error open semaphore print\n"), EXIT_FAILURE);
 	}
-	new->next = NULL;
-	new->first = philos;
-	philos->last = new;
-	return (philos);
+	data->sema_die = sem_open("die", O_CREAT, 0600, 0);
+	if (data->sema_die == SEM_FAILED)
+	{
+		(sem_close(data->sema_fork), sem_close(data->sema_fork));
+		return (printf("Error open semaphore print\n"), EXIT_FAILURE);
+	}
+	sem_unlink("taking_fork");
+	data->sema_taking_fork = sem_open("taking_fork", O_CREAT, 0600, 1);
+	if (data->sema_taking_fork == SEM_FAILED)
+	{
+		sem_close(data->sema_die);
+		(sem_close(data->sema_fork), sem_close(data->sema_fork));
+		return (printf("Error open semaphore print\n"), EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
 }
 
-t_philo	*ft_clear_philos(t_philo *philos)
-{
-	t_philo	*buff;
-
-	if (!philos)
-		return (NULL);
-	buff = philos->next;
-	free(philos);
-	return (ft_clear_philos(buff));
-}
-
-t_philo	*ft_init_struct(t_philo *philo)
+t_philo	*init_philo(t_data *data)
 {
 	int		i;
 	t_philo	*philos;
-	t_philo	*new;
 
-	i = 1;
-	philos = NULL;
-	while (i <= philo->nb_philo)
+	i = 0;
+	if (set_data(data) == EXIT_FAILURE)
+		return (NULL);
+	philos = malloc(sizeof(t_philo) * data->nb_philo);
+	if (philos == NULL)
+		return (NULL);
+	memset(philos, 0, sizeof(t_philo) * data->nb_philo);
+	while (i < data->nb_philo)
 	{
-		new = ft_lstnew(i, philo);
-		if (!new)
-			return (NULL);
-		philos = ft_add_back(philos, new);
+		philos[i].id = i + 1;
+		philos[i].data = data;
 		i++;
 	}
-	philos->first->before = philos->last;
 	return (philos);
 }

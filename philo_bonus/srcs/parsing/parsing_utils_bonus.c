@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madamou <madamou@contact.42.fr>            +#+  +:+       +#+        */
+/*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:36:31 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/10 05:31:39 by madamou          ###   ########.fr       */
+/*   Updated: 2024/12/25 00:41:25 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo_bonus.h"
 #include <stdio.h>
 
-int	ft_check_if_number(char **argv, int index)
+int	check_if_number(char **argv, int index)
 {
 	int	i;
 

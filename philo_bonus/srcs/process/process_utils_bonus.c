@@ -6,41 +6,48 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 01:48:26 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/25 19:10:01 by madamou          ###   ########.fr       */
+/*   Updated: 2024/12/26 10:23:44 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo_bonus.h"
+#include <semaphore.h>
 
-int	ft_printf(char *str, t_philo *philo)
+t_state	ft_printf(t_philo *philo, char *message)
 {
 	unsigned long long int	time;
 
-	sem_wait(philo->sem_printf);
-	time = ft_time(philo, 2);
+	sem_wait(philo->data->sema_printf);
+	if (check_if_die(philo) == FINISH)
+		return (sem_post(philo->data->sema_printf), FINISH);
+	time = get_time();
 	if (time == 0)
-		return (0);
-	printf(str, (time - philo->timestart) / 1000, philo->id);
-	sem_post(philo->sem_printf);
-	return (1);
+		return (sem_post(philo->data->sema_printf), FINISH);
+	time -= philo->data->time_start;
+	if (printf("%lld %d %s\n", time / 1000, philo->id, message) == -1)
+		return (sem_post(philo->data->sema_printf), FINISH);
+	sem_post(philo->data->sema_printf);
+	return (CONTINUE);
 }
 
-int	ft_usleep(t_philo *philo, unsigned long long time_sleep)
+t_state	ft_usleep(t_philo *philo, long long time_sleep)
 {
-	unsigned long long	time_start;
-	unsigned long long	time;
+	long long	time_start;
+	long long	actual_time;
 
-	time_start = ft_time(philo, 2);
+	time_start = get_time();
 	if (time_start == 0)
-		return (-1);
-	time = time_start;
-	while (time - time_start < time_sleep)
+		return (FINISH);
+	actual_time = time_start;
+	while (actual_time - time_start < time_sleep)
 	{
-		if (usleep(10) == -1)
-			return (-1);
-		time = ft_time(philo, 2);
-		if (time == 0)
-			return (-1);
+		if (usleep(100) == -1)
+			return (FINISH);
+		if (check_if_die(philo) == FINISH)
+			return (FINISH);
+		actual_time = get_time();
+		if (actual_time == 0)
+			return (FINISH);
 	}
-	return (1);
+	return (CONTINUE);
 }

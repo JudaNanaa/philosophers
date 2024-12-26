@@ -6,66 +6,36 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 14:53:32 by madamou           #+#    #+#             */
-/*   Updated: 2024/07/23 17:18:05 by madamou          ###   ########.fr       */
+/*   Updated: 2024/12/26 10:36:16 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo_bonus.h"
+#include <semaphore.h>
 
-unsigned long long int	ft_get_last_eat(t_philo *philo)
+t_state set_simulation_finish(t_philo *philo)
 {
-	unsigned long long int	result;
+	long long	actual_time;
 
-	sem_wait(philo->sem_last_eat);
-	result = philo->timeeating;
-	sem_post(philo->sem_last_eat);
-	return (result);
+	actual_time = (get_time() - philo->data->time_start) / 1000;
+	sem_wait(philo->data->sema_printf);
+	printf("%lld %d %s\n", actual_time, philo->id, DIE);
+	sem_post(philo->data->sema_die);
+	return (FINISH);
 }
 
-int	ft_get_if_die(t_philo *philo)
+t_state	check_if_die(t_philo *philo)
 {
-	int	result;
+	long long int	actual_time;
+	long long int	die;
+	long long int	last_eat;
 
-	sem_wait(philo->sem_last_eat);
-	result = philo->die;
-	sem_post(philo->sem_last_eat);
-	return (result);
-}
-
-unsigned long long int	ft_set_last_eat(t_philo *philo)
-{
-	unsigned long long int	result;
-
-	result = ft_time(philo, 2);
-	if (result == 0)
-		return (0);
-	sem_wait(philo->sem_last_eat);
-	philo->timeeating = result;
-	sem_post(philo->sem_last_eat);
-	return (1);
-}
-
-void	ft_set_nb_eat(t_philo *philo)
-{
-	if (philo->nb_eat != -1)
-		--philo->nb_eat;
-}
-
-int	ft_check_if_die(t_philo *philo)
-{
-	unsigned long long int	time;
-	unsigned long long int	die;
-	unsigned long long int	last_eat;
-
-	time = 0;
-	die = 0;
-	last_eat = ft_get_last_eat(philo);
-	time = ft_time(philo, 2);
-	if (time == 0)
-		return (-1);
-	time = time - last_eat;
-	die = philo->time_die;
-	if (time >= die)
-		return (1);
-	return (0);
+	actual_time = get_time();
+	if (actual_time == 0)
+		return (FINISH);
+	last_eat = philo->last_meal;
+	die = philo->data->time_die;
+	if (actual_time - last_eat >= die)
+		return (set_simulation_finish(philo));
+	return (CONTINUE);
 }
