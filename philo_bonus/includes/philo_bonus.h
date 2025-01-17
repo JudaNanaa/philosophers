@@ -6,12 +6,12 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:59:03 by madamou           #+#    #+#             */
-/*   Updated: 2024/12/26 10:22:20 by madamou          ###   ########.fr       */
+/*   Updated: 2025/01/17 22:58:48 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 
 # include <bits/pthreadtypes.h>
 # include <pthread.h>
@@ -94,6 +94,7 @@ t_state				taking_fork(t_philo *philo);
 t_state				get_simulation_state(t_philo *philo);
 t_state				set_simulation_finish(t_philo *philo);
 t_state				check_if_die(t_philo *philos);
+void				*monitor(void *args);
 
 void				semaphore_close(t_data *data);
 

@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 08:12:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/12/26 10:27:57 by madamou          ###   ########.fr       */
+/*   Updated: 2025/01/17 22:56:09 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include <string.h>
 
-int set_data(t_data *data)
+int	set_data(t_data *data)
 {
 	data->time_die *= 1000;
 	data->time_eat *= 1000;

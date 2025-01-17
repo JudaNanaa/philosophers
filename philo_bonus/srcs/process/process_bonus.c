@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 13:40:51 by madamou           #+#    #+#             */
-/*   Updated: 2024/12/26 10:21:55 by madamou          ###   ########.fr       */
+/*   Updated: 2025/01/17 22:56:57 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ int	childs_create(t_philo *philo)
 
 void	wait_childs(t_philo *philo)
 {
-	int i;
-	int nb_philos;
+	int	i;
+	int	nb_philos;
 
 	i = 0;
-	nb_philos = philo->data->nb_philo;	
+	nb_philos = philo->data->nb_philo;
 	while (i < nb_philos)
 	{
 		waitpid(philo->pid, NULL, 0);

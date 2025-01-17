@@ -6,14 +6,14 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 14:53:32 by madamou           #+#    #+#             */
-/*   Updated: 2024/12/26 10:36:16 by madamou          ###   ########.fr       */
+/*   Updated: 2025/01/17 22:56:30 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/philo_bonus.h"
 #include <semaphore.h>
 
-t_state set_simulation_finish(t_philo *philo)
+t_state	set_simulation_finish(t_philo *philo)
 {
 	long long	actual_time;
 

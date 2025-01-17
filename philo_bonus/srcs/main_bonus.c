@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 13:57:50 by madamou           #+#    #+#             */
-/*   Updated: 2024/12/25 00:59:06 by madamou          ###   ########.fr       */
+/*   Updated: 2025/01/17 22:55:52 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 int	main(int argc, char **argv)
 {
-	t_data data;
+	t_data	data;
 	t_philo	*philos;
 
 	memset(&data, 0, sizeof(t_data));

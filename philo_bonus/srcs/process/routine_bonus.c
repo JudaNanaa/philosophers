@@ -6,7 +6,7 @@
 /*   By: madamou <madamou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 19:17:33 by madamou           #+#    #+#             */
-/*   Updated: 2024/12/26 10:36:34 by madamou          ###   ########.fr       */
+/*   Updated: 2025/01/17 22:58:25 by madamou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,10 @@
 #include <semaphore.h>
 #include <stdio.h>
 
-void *monitor(void *args)
-{
-	t_philo *philo;
-
-	philo = (t_philo *)args;
-	sem_wait(philo->data->sema_die);
-	sem_post(philo->data->sema_die);
-	free(&philo[0 - philo->id]);
-	exit(EXIT_SUCCESS);
-}
-
 int	pthread_create_for_routine(t_philo *philo)
 {
-	pthread_t thread;
-	
+	pthread_t	thread;
+
 	if (pthread_create(&thread, NULL, monitor, philo) == -1)
 		return (-1);
 	if (pthread_detach(thread) == -1)
@@ -44,7 +33,7 @@ void	routine(t_philo *philo)
 	if (philo->id % 2 == 0)
 		ft_usleep(philo, 100);
 	if (philo->data->nb_philo == 0)
-		return;
+		return ;
 	while (philo->data->nb_philo != 1)
 	{
 		if (eating(philo) == FINISH)
@@ -88,7 +77,7 @@ t_state	eating(t_philo *philo)
 	return (CONTINUE);
 }
 
-t_state sleeping(t_philo *philo)
+t_state	sleeping(t_philo *philo)
 {
 	if (ft_printf(philo, SLEEP) == FINISH)
 		return (FINISH);
